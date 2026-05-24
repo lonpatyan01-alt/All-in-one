@@ -1,0 +1,479 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision Broadcast Monitor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(10, 12, 18, 0.99) 0%, rgba(2, 3, 6, 1) 100%);
+            --text-glow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            
+            /* 🌈 نیون تھیم کلرز */
+            --thermal-cool: #00ffaa;     
+            --thermal-warm: #ffaa00;     
+            --thermal-heat: #ff3300;     
+            --solar-sunrise: #ff9900;    
+            --solar-sunset: #ff3366;     
+            --solar-sky: #00ccff;        
+        }
+
+        body {
+            background-color: #010103;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 📺 ویڈیو براڈکاسٹ وال کنٹینر */
+        .broadcast-video-wall {
+            width: 360px;
+            background: var(--studio-dark-bg);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.95), inset 0 0 40px rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--thermal-cool);
+            transition: border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 🌊 کائینیٹک موشن لائیو بیک گراؤنڈ ویو */
+        .broadcast-video-wall::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 170, 0.02) 0%, transparent 65%);
+            animation: pulseWave 10s infinite linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 🛰️ ٹاپ ماسٹر اسٹوڈیو ہیڈر */
+        .studio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 8px;
+            z-index: 2;
+        }
+
+        .live-tag {
+            color: #ff3300;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: flashOverlay 1s infinite;
+        }
+
+        /* 🏙️ مین اسٹیشن انفارمیشن */
+        .station-identity-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .city-title-pack {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .city-name {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .widget-mode-indicator {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--thermal-cool);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* 🔁 پلے لسٹ وزٹ کارڈز (فلپنگ اینڈ سلائیڈنگ اینیمیشن سٹیج) */
+        .display-deck {
+            position: relative;
+            height: 120px;
+            z-index: 2;
+        }
+
+        .widget-card {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+            transform: translateY(15px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .widget-card.active-card {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        /* 🌡️ تھرمل کارڈ کے ڈیزائن ایلیمنٹس */
+        .thermal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .huge-number {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .mini-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .mini-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mini-card-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 800;
+        }
+
+        .mini-card-val {
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        /* 🌅 سولر کارڈ کے ڈیزائن ایلیمنٹس */
+        .solar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            height: 100%;
+            padding-top: 10px;
+        }
+
+        .solar-box-item {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .solar-box-item.sunrise { border-top: 3px solid var(--solar-sunrise); }
+        .solar-box-item.sunset { border-top: 3px solid var(--solar-sunset); }
+
+        .solar-time-val {
+            font-size: 24px;
+            font-weight: 900;
+            margin-top: 4px;
+        }
+
+        /* 📝 لائیو اسمارٹ اردو ایڈوائزری پینل */
+        .broadcast-advisory-center {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 4px solid var(--thermal-cool);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 40px;
+            z-index: 2;
+            transition: border-color 0.8s ease;
+        }
+
+        /* 📢 نچلا لائیو اسٹریمنگ نیوز ٹیکر */
+        .studio-news-ticker {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .ticker-header {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffcc00;
+            letter-spacing: 2px;
+        }
+
+        .ticker-body {
+            font-size: 11px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.6);
+            white-space: nowrap;
+        }
+
+        /* 🎬 الٹرا پروفیشنل اسٹوڈیو اینیمیشنز */
+        @keyframes pulseWave {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes flashOverlay {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="broadcast-video-wall" id="main-studio-frame">
+        
+        <div class="studio-header">
+            <div class="live-tag">🔴 LIVE TELEMETRY STREAM</div>
+            <div id="studio-live-clock">00:00:00 AM</div>
+        </div>
+
+        <div class="station-identity-panel">
+            <div class="city-title-pack">
+                <span id="target-city-name" class="city-name">KARACHI</span>
+                <span id="widget-mode-text" class="widget-mode-indicator">THERMAL RADAR MATRIX</span>
+            </div>
+        </div>
+
+        <div class="display-deck">
+            
+            <div class="widget-card active-card" id="card-thermal">
+                <div class="thermal-row">
+                    <div>
+                        <span id="thermal-status-label" style="font-size: 11px; font-weight: 800; color: var(--thermal-cool);">ANALYZING INDEX...</span>
+                    </div>
+                    <div class="thermal-row" style="gap: 10px; align-items: flex-end;">
+                        <span id="main-feels-like" class="huge-number">--</span>
+                        <span style="font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.4); padding-bottom: 6px;">FEELS LIKE</span>
+                    </div>
+                </div>
+                <div class="mini-stats-grid">
+                    <div class="mini-card">
+                        <span class="mini-card-label">حقیقی ٹمپریچر</span>
+                        <span id="val-actual-temp" class="mini-card-val">--</span>
+                    </div>
+                    <div class="mini-card">
+                        <span class="mini-card-label">ہوا میں نمی</span>
+                        <span id="val-humidity" class="mini-card-val">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-card" id="card-solar">
+                <div class="solar-grid">
+                    <div class="solar-box-item sunrise">
+                        <span class="mini-card-label">طلوعِ آفتاب 🌅</span>
+                        <span id="val-sunrise" class="solar-time-val">--:--</span>
+                    </div>
+                    <div class="solar-box-item sunset">
+                        <span class="mini-card-label">غروبِ آفتاب 🌇</span>
+                        <span id="val-sunset" class="solar-time-val">--:--</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="broadcast-advisory-center" id="live-advisory-output">
+            ڈیٹا فیڈ پروسیس ہو رہا ہے...
+        </div>
+
+        <!--<div class="studio-news-ticker">-->
+            <!--<div id="ticker-title" class="ticker-header">🔥 QUEUED BROADCAST STATION</div>-->
+            <!--<div id="ticker-content" class="ticker-body">LOADING NEXT TRANSMISSION...</div>-->
+        </div>
+
+    </div>
+
+    <script>
+        // 🌍 بڑے شہروں کا فلی لاٹ لاکڈ ڈیٹا بیس (کوئی لوکیشن پرمیشن نہیں مانگے گا)
+        const StudioPlaylist = [
+            { name: "Karachi", lat: 24.8607, lon: 67.0011 },
+            { name: "Lahore", lat: 31.5204, lon: 74.3587 },
+            { name: "Islamabad", lat: 33.6844, lon: 73.0479 },
+            { name: "Multan", lat: 30.1575, lon: 71.5249 },
+            { name: "Jacobabad", lat: 28.2810, lon: 68.4383 },
+            { name: "Dubai", lat: 25.2048, lon: 55.2708 },
+            { name: "Makkah", lat: 21.3891, lon: 39.8579 }
+        ];
+
+        let currentCityIdx = 0;
+        let activeWidgetMode = "thermal"; // thermal | solar
+        let cachedWeatherData = null;
+
+        // ⏱️ لائیو اسٹوڈیو ڈیجیٹل کلاک پروٹوکول
+        function startStudioClock() {
+            setInterval(() => {
+                const clockEl = document.getElementById("studio-live-clock");
+                const now = new Date();
+                clockEl.textContent = now.toLocaleTimeString('en-US', { hour12: true });
+            }, 1000);
+        }
+
+        // 🛰️ اوپن میٹیو انجن سے اکٹھا ڈیٹا فیچ کرنے والا ماسٹر سسٹم
+        async function fetchStudioTelemetry(cityObj) {
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${cityObj.lat}&longitude=${cityObj.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature&daily=sunrise,sunset&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data) {
+                    cachedWeatherData = data;
+                    renderBroadcastData();
+                }
+            } catch (e) {
+                console.log("Telemetry link issue...");
+            }
+        }
+
+        // 🎨 لائیو رینڈرنگ پلس ڈائنامک تھیمنگ انجن
+        function renderBroadcastData() {
+            if (!cachedWeatherData) return;
+            
+            const curCity = StudioPlaylist[currentCityIdx];
+            const currentFeed = cachedWeatherData.current;
+            const dailyFeed = cachedWeatherData.daily;
+
+            document.getElementById("target-city-name").textContent = curCity.name;
+
+            // ۱. تھرمل ریڈار کا ڈیٹا فیڈ کرنا
+            const actual = Math.round(currentFeed.temperature_2m);
+            const humidity = Math.round(currentFeed.relative_humidity_2m);
+            const apparent = Math.round(currentFeed.apparent_temperature);
+
+            document.getElementById("main-feels-like").textContent = `${apparent}°C`;
+            document.getElementById("val-actual-temp").textContent = `${actual}°C`;
+            document.getElementById("val-humidity").textContent = `${humidity}%`;
+
+            // ۲. سولر ٹریکٹر کا ڈیٹا فیچ اور فارمیٹ کرنا
+            const sunriseTime = new Date(dailyFeed.sunrise[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            const sunsetTime = new Date(dailyFeed.sunset[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+
+            document.getElementById("val-sunrise").textContent = sunriseTime;
+            document.getElementById("val-sunset").textContent = sunsetTime;
+
+            // ۳. موڈ کنٹرولر اور ڈائنامک الائنمنٹ
+            applyDynamicVisualRules(apparent, sunriseTime, sunsetTime);
+        }
+
+        // 🚨 انٹیلیجنٹ ڈیزائن لاکر اور لائیو اردو الرٹ سسٹم
+        function applyDynamicVisualRules(apparent, sunrise, sunset) {
+            const frame = document.getElementById("main-studio-frame");
+            const statusLabel = document.getElementById("thermal-status-label");
+            const advisory = document.getElementById("live-advisory-output");
+            
+            let themeColor = "var(--thermal-cool)";
+            let statusUrdu = "خوشگوار (COMFORTABLE)";
+            let adviceText = "";
+
+            // تپش کی شدت کے حساب سے رنگ اور الرٹ کا فیصلہ
+            if (apparent >= 32 && apparent <= 40) {
+                themeColor = "var(--thermal-warm)";
+                statusUrdu = "شدید تپش (MODERATE HEAT)";
+            } else if (apparent > 40) {
+                themeColor = "var(--thermal-heat)";
+                statusUrdu = "شدید ترین گرمی (EXTREME HEAT)";
+            }
+
+            frame.style.borderLeftColor = themeColor;
+            statusLabel.style.color = themeColor;
+            statusLabel.textContent = statusUrdu;
+
+            // موڈ کے حساب سے اردو ایڈوائزری لکھنا
+            if (activeWidgetMode === "thermal") {
+                document.getElementById("widget-mode-text").textContent = "THERMAL RADAR MATRIX";
+                document.getElementById("widget-mode-text").style.color = themeColor;
+                
+                if (apparent < 32) adviceText = "محسوس ہونے والا درجہ حرارت بالکل آرام دہ ہے۔ بیرونی کاموں کے لیے وقت بہترین ہے! 🍃";
+                else if (apparent <= 40) adviceText = "ہوا میں نمی کے سبب حبس زیادہ ہے۔ باہر نکلتے وقت پانی کا استعمال بڑھا دیں! ☀️";
+                else adviceText = "انتباہ! باہر لو اور شدید تپش کا ماحول ہے۔ بلا ضرورت دھوپ میں نکلنے سے گریز کریں! 🔥";
+                
+                advisory.style.borderLeftColor = themeColor;
+            } else {
+                document.getElementById("widget-mode-text").textContent = "SOLAR ORBITAL TRACKER";
+                document.getElementById("widget-mode-text").style.color = "var(--solar-sky)";
+                
+                adviceText = `آج سورج صبح ${sunrise} بجے طلوع ہوا تھا اور شام کو ٹھیک ${sunset} بجے غروب ہوگا۔ 🛰️`;
+                advisory.style.borderLeftColor = "var(--solar-sky)";
+            }
+
+            advisory.textContent = adviceText;
+
+            // لوئر تھرڈ نیوز پٹی اپڈیٹ کرنا
+            const nextCityIdx = (currentCityIdx + 1) % StudioPlaylist.length;
+            document.getElementById("ticker-content").textContent = `>> NEXT STATION IN QUEUE: ${StudioPlaylist[nextCityIdx].name.toUpperCase()} FEED TRANSMITTING SOON...`;
+        }
+
+        // 🔄 لائیو ماسٹر لوپ کنٹرولر (ویڈیو پلے لسٹ انجن)
+        function runStudioBroadcastLoop() {
+            // ہر 10 سیکنڈ بعد یہ لوپ موڈ بدلے گا یا شہر بدلے گا
+            setInterval(() => {
+                if (activeWidgetMode === "thermal") {
+                    // تھرمل سے سولر موڈ میں اسموتھ سوئچ کریں
+                    activeWidgetMode = "solar";
+                    document.getElementById("card-thermal").classList.remove("active-card");
+                    document.getElementById("card-solar").classList.add("active-card");
+                    renderBroadcastData();
+                } else {
+                    // سولر موڈ ختم ہونے پر اگلا شہر لوڈ کریں اور دوبارہ تھرمل پر آئیں
+                    activeWidgetMode = "thermal";
+                    document.getElementById("card-solar").classList.remove("active-card");
+                    document.getElementById("card-thermal").classList.add("active-card");
+                    
+                    currentCityIdx = (currentCityIdx + 1) % StudioPlaylist.length;
+                    fetchStudioTelemetry(StudioPlaylist[currentCityIdx]);
+                }
+            }, 10000); // 10 سیکنڈ بعد اسکرین کا ڈیٹا خود بخود فلپ (Flip) ہوگا
+        }
+
+        // 🚀 ماسٹر پاور آن سٹارٹ اپ فائرنگ
+        startStudioClock();
+        fetchStudioTelemetry(StudioPlaylist[currentCityIdx]);
+        runStudioBroadcastLoop();
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>

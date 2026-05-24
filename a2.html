@@ -1,0 +1,473 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision Gulf Currencies Studio Monitor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 🎨 گلف فاریکس کلر کوڈنگ اور پکسل پرفیکٹ نیون برائٹنس کنٹرولر */
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(12, 16, 14, 0.99) 0%, rgba(3, 6, 4, 1) 100%);
+            --text-glow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            
+            /* 🇸🇦 🇦🇪 💵 ڈائنامک خلیجی نیون کلرز */
+            --forex-sar: #00ff66;       /* سعودی ریال (Neon Emerald) */
+            --forex-aed: #00e5ff;       /* اماراتی درہم (Electric Cyan) */
+            --forex-gold: #ffcc00;      /* ریمیٹنس میٹرکس / مستحکم (Gold) */
+            --forex-bearish: #ff3344;    /* روپے کی گراوٹ / مندی (Neon Red) */
+        }
+
+        body {
+            background-color: #010103;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 📺 گرینڈ خلیجی فاریکس لائیو ویڈیو براڈکاسٹ وال فریم */
+        .broadcast-video-wall {
+            width: 350px;
+            background: var(--studio-dark-bg);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.95), inset 0 0 40px rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--forex-sar);
+            transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 🌊 کائینیٹک نیون موشن لائیو پس منظر لہر */
+        .broadcast-video-wall::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 102, 0.02) 0%, transparent 65%);
+            animation: pulseWave 12s infinite linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 🛰️ ٹاپ ماسٹر ٹیلی میٹری ہیڈر پینل */
+        .studio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 8px;
+            z-index: 2;
+        }
+
+        .live-tag {
+            color: var(--forex-bearish);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: flashOverlay 1s infinite;
+        }
+
+        /* 🏙️ مارکیٹ ریڈار مین ہیڈنگز */
+        .market-identity-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .market-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .widget-mode-indicator {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--forex-sar);
+            text-transform: uppercase;
+            margin-top: 2px;
+            background: rgba(0, 255, 102, 0.08);
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        /* 📊 گرینڈ ڈیک گرڈ فار خلیجی اسپلٹس */
+        .display-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2;
+            min-height: 195px;
+        }
+
+        /* 📦 خلیجی ریٹ کارڈ وزٹس */
+        .rate-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-right: 4px solid var(--forex-sar);
+            animation: fadeInSlot 0.5s ease-in-out;
+        }
+
+        .rate-title-row {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .rate-main-metrics {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .huge-number {
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: var(--text-glow);
+        }
+
+        .change-text {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        /* 📝 اسمارٹ لائیو اردو ایڈוائزری کمنٹری باکس */
+        .broadcast-advisory-center {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 4px solid var(--forex-sar);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 38px;
+            z-index: 2;
+            transition: border-color 0.5s ease;
+        }
+
+        /* 📢 نچلی لوئر-تھرڈ کائینیٹک پٹی */
+        .studio-news-ticker {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .ticker-header {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffcc00;
+            letter-spacing: 1.5px;
+        }
+
+        /* 🔁 اسٹیج اینیمیشن باکس */
+        .ticker-stage {
+            height: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticker-inner-box {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stage-fade-out {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        .stage-fade-in {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .gulf-asset-name {
+            font-size: 11.5px;
+            font-weight: 900;
+        }
+
+        .gulf-market-value {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        /* 🎬 اسٹوڈیو اینیمیشن رولز */
+        @keyframes pulseWave {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.08); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes flashOverlay {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes fadeInSlot {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="broadcast-video-wall" id="main-studio-frame">
+        
+        <div class="studio-header">
+            <div class="live-tag">🔴 GULF NETWORK LIVE STREAM</div>
+            <div id="studio-live-clock">00:00:00 AM</div>
+        </div>
+
+        <div class="market-identity-panel">
+            <div style="display: flex; flex-direction: column;">
+                <span class="market-title">GULF CURRENCIES</span>
+                <span id="widget-mode-text" class="widget-mode-indicator">MODE: GULF OPEN MARKET</span>
+            </div>
+        </div>
+
+        <div class="display-deck" id="dynamic-gulf-deck">
+            </div>
+
+        <div class="broadcast-advisory-center" id="live-advisory-output">
+            خلیجی فاریکس نیٹ ورک لوڈ ہو رہا ہے...
+        </div>
+
+        <div class="studio-news-ticker">
+            <div class="ticker-header">🌍 LIVE MIDDLE EAST REMITTANCE & ASSETS TICKER</div>
+            <div class="ticker-stage">
+                <div class="ticker-inner-box" id="gulf-stage-box">
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 📊 مڈل ایسٹ کرنسیاں اور ریمیٹنس انڈیکیٹرز ڈیٹا بیس
+        const GulfSentimentMatrix = [
+            { asset: "Omani Rial (OMR) 🇴🇲", value: "Rs 721.40", color: "var(--forex-sar)" },
+            { asset: "Kuwaiti Dinar (KWD) 🇰🇼", value: "Rs 906.15", color: "var(--forex-aed)" },
+            { asset: "Qatari Riyal (QAR) 🇶🇦", value: "Rs 76.25", color: "var(--forex-gold)" },
+            { asset: "Remittance Inflow Index", value: "Strong Flow 📈", color: "var(--forex-sar)" }
+        ];
+
+        let currentMode = 0; // 0 = Open Market, 1 = Interbank, 2 = Remittance & Pegs
+        let gulfPointer = 0;
+
+        // بیس پرائس ریٹ ہولڈرز فور ریال اینڈ درہم
+        let sarOpen = 73.95;
+        let aedOpen = 75.60;
+        let sarInterbank = 73.65;
+        let aedInterbank = 75.25;
+
+        // ⏱️ لائیو اسٹوڈیو گھڑی
+        function startStudioClock() {
+            setInterval(() => {
+                document.getElementById("studio-live-clock").textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
+            }, 1000);
+        }
+
+        // 📡 ہائی فریکوئنسی مائیکرو فلکچویشن پائپ لائن (صرف خلیجی ریٹس موضوع)
+        function runLiveGulfFluctuation() {
+            // ڈالر پیگ کی وجہ سے مائیکرو پوائنٹس (صرف چند پیسہ) کی لائیو فلکچوئیٹنگ موومنٹ
+            const sarChange = (Math.random() * 0.04 - 0.02);
+            const aedChange = (Math.random() * 0.04 - 0.02);
+
+            sarOpen = parseFloat((sarOpen + sarChange).toFixed(2));
+            aedOpen = parseFloat((aedOpen + aedChange).toFixed(2));
+            sarInterbank = parseFloat((sarInterbank + sarChange).toFixed(2));
+            aedInterbank = parseFloat((aedInterbank + aedChange).toFixed(2));
+
+            renderActiveGulfMode();
+        }
+
+        // 🎛️ خودکار خصوصیات اور مانیٹر اسکرین چینجر مینیجر (Auto-Cyling)
+        function rotateGulfScreenMode() {
+            currentMode = (currentMode + 1) % 3;
+            const modeIndicator = document.getElementById("widget-mode-text");
+            
+            if (currentMode === 0) {
+                modeIndicator.textContent = "MODE: GULF OPEN MARKET";
+                modeIndicator.style.color = "var(--forex-sar)";
+                modeIndicator.style.background = "rgba(0, 255, 102, 0.08)";
+            } else if (currentMode === 1) {
+                modeIndicator.textContent = "MODE: GULF INTERBANK OFFICIAL";
+                modeIndicator.style.color = "var(--forex-aed)";
+                modeIndicator.style.background = "rgba(0, 229, 255, 0.08)";
+            } else {
+                modeIndicator.textContent = "MODE: REMITTANCE & PEG ANALYTICS";
+                modeIndicator.style.color = "var(--forex-gold)";
+                modeIndicator.style.background = "rgba(255, 204, 0, 0.08)";
+            }
+            runLiveGulfFluctuation();
+        }
+
+        // 🎨 ایکٹو موڈ رینڈرنگ ڈیک پلس اسمارٹ لائیو اردو کمنٹری
+        function renderActiveGulfMode() {
+            const deck = document.getElementById("dynamic-gulf-deck");
+            const advisory = document.getElementById("live-advisory-output");
+            const frame = document.getElementById("main-studio-frame");
+            if (!deck) return;
+
+            let htmlContent = "";
+            let adviceUrdu = "";
+
+            // موڈ ۱: اوپن مارکیٹ ایکسچینج ریٹس
+            if (currentMode === 0) {
+                frame.style.borderLeftColor = "var(--forex-sar)";
+                advisory.style.borderLeftColor = "var(--forex-sar)";
+                adviceUrdu = `مقامی اوپن مارکیٹ میں سعودی ریال اور اماراتی درہم کی قیمتیں امریکی ڈالر پیگ سسٹم کے باعث انتہائی مستحکم رینج میں ٹریڈ ہو رہی ہیں۔ 🇸🇦`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-sar)">
+                        <div class="rate-title-row"><span>🇸🇦 SAUDI RIYAL (SAR)</span><span style="color:var(--forex-sar)">OPEN MKT</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-sar)">Rs ${sarOpen.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-sar)">Stable</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-sar)">
+                        <div class="rate-title-row"><span>🇦🇪 UAE DIRHAM (AED)</span><span style="color:var(--forex-sar)">OPEN MKT</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-sar)">Rs ${aedOpen.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-sar)">+0.05</span>
+                        </div>
+                    </div>
+                `;
+            } 
+            // موڈ ۲: آفیشل انٹر بینک ڈیٹا
+            else if (currentMode === 1) {
+                frame.style.borderLeftColor = "var(--forex-aed)";
+                advisory.style.borderLeftColor = "var(--forex-aed)";
+                adviceUrdu = `اسٹیٹ بینک آف پاکستان کے آفیشل انٹر بینک ڈیٹا فلو کے مطابق اوورسیز خلیجی کرنسیوں کے کلوزنگ ریٹس میں روپیہ مضبوط پوزیشن ہینڈل کر رہا ہے۔ 🏛️`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-aed)">
+                        <div class="rate-title-row"><span>🇸🇦 SAR INTERBANK</span><span style="color:var(--forex-aed)">OFFICIAL</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-aed)">Rs ${sarInterbank.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-sar)">-0.02</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-aed)">
+                        <div class="rate-title-row"><span>🇦🇪 AED INTERBANK</span><span style="color:var(--forex-aed)">OFFICIAL</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-aed)">Rs ${aedInterbank.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-sar)">Stable</span>
+                        </div>
+                    </div>
+                `;
+            } 
+            // موڈ ۳: ریمیٹنس اور پیگ اینالٹکس
+            else {
+                frame.style.borderLeftColor = "var(--forex-gold)";
+                advisory.style.borderLeftColor = "var(--forex-gold)";
+                adviceUrdu = `خلیج سے اوورسیز پاکستانیوں کی جانب سے بھیجی جانے والی ریمیٹنس (ترسیلاتِ زر) کا انڈیکس پچھلے کوارٹر کے مقابلے میں غیر معمولی مثبت ریکارڈ کیا گیا۔ 💰`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-gold)">
+                        <div class="rate-title-row"><span>📊 GULF REMITTANCE FLOW</span><span>QUARTERLY MATRIX</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-gold)">+4.8% UP</span>
+                            <span class="change-text" style="color: var(--forex-sar)">⚖️ EXCELLENT</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-gold)">
+                        <div class="rate-title-row"><span>📉 GCC USD-PEG STABILITY</span><span>GLOBAL FEED</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="font-size:22px; color: #fff;">100% Fixed Peg</span>
+                            <span class="change-text" style="color: var(--forex-sar)">SECURE</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            deck.innerHTML = htmlContent;
+            advisory.textContent = adviceUrdu;
+        }
+
+        // 🔁 خلیجی لوئر-تھرڈ پٹی روٹیشن مینیجر (سلائیڈر ٹکر)
+        function renderGulfStage() {
+            const stage = document.getElementById("gulf-stage-box");
+            if (!stage) return;
+
+            const cur = GulfSentimentMatrix[gulfPointer];
+            stage.innerHTML = `
+                <div><span class="gulf-asset-name">${cur.asset}</span></div>
+                <div class="gulf-market-value" style="color: ${cur.color}">${cur.value}</div>
+            `;
+        }
+
+        // ⏱️ اسموتھ کائینیٹک سلائیڈر انجن
+        function rotateGulfTicker() {
+            const stage = document.getElementById("gulf-stage-box");
+            if (!stage) return;
+
+            stage.classList.add("stage-fade-out");
+
+            setTimeout(() => {
+                gulfPointer = (gulfPointer + 1) % GulfSentimentMatrix.length;
+                renderGulfStage();
+
+                stage.classList.remove("stage-fade-out");
+                stage.classList.add("stage-fade-in");
+
+                setTimeout(() => { stage.classList.remove("stage-fade-in"); }, 50);
+            }, 600);
+        }
+
+        // 🚀 ماسٹر اسٹارت اپ پروٹوکولز
+        startStudioClock();
+        runLiveGulfFluctuation();
+        renderGulfStage();
+
+        // ⏳ آٹومیٹڈ لائیو ٹائمرز
+        setInterval(runLiveGulfFluctuation, 4000);    // ہر 4 سیکنڈ بعد لائیو مائیکرو قیمتیں فلکچوئیٹ ہوں گی
+        setInterval(rotateGulfScreenMode, 8000);     // ہر 8 سیکنڈ بعد پوری اسکرین کی خصوصیات اور مانیٹر موڈز خودکار طور پر بدل جائیں گے
+        setInterval(rotateGulfTicker, 5000);         // هر 5 سیکنڈ بعد نچلا انٹرنیشنل اوورسیز ٹکر بدلے گا
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>

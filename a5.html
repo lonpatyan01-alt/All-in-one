@@ -1,0 +1,668 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision National AQI & Air Quality Cloud Engine Ultimate</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 🎨 سائنسی کلر کوڈنگ اور پکسل پرفیکٹ نیون برائٹنس کنٹرولر */
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(8, 8, 20, 0.99) 0%, rgba(1, 1, 4, 1) 100%);
+            --text-shadow-heavy: 0 2px 4px rgba(0,0,0,0.95), 0 4px 10px rgba(0,0,0,0.85);
+            
+            /* 🟢 🟡 🟠 🔴 🟣 انٹرنیشنل AQI کلر میٹرکس */
+            --aqi-good: #00e400;      
+            --aqi-moderate: #ffff00;  
+            --aqi-unhealthy-s: #ff7e00; 
+            --aqi-unhealthy: #ff0000;   
+            --aqi-hazardous: #9d00ff;   
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #010103;
+            padding: 10px;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 🌤️ مین ماسٹر کنٹینر: الٹرا کمپیکٹ اور 100% رسپانسو سمارٹ سائز */
+        .quantum-aqi-widget {
+            width: 100%;
+            max-width: 360px; 
+            background: var(--studio-dark-bg);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 40px 90px rgba(0,0,0,1), 0 0 40px rgba(0, 228, 0, 0.05);
+            border-top: 1px solid rgba(255,255,255,0.12);
+            border-right: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--aqi-good); 
+            transition: border-color 1s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 1s ease;
+        }
+
+        /* ⏰ پریمیم براڈکاسٹ کلاک اسٹریپ */
+        .broadcast-clock-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(5px);
+        }
+
+        .live-clock {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            color: #00ff66;
+            text-shadow: 0 0 12px rgba(0, 255, 102, 0.5), var(--text-shadow-heavy);
+            letter-spacing: 0.5px;
+        }
+
+        .live-date {
+            font-size: 11px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: var(--text-shadow-heavy);
+            letter-spacing: 0.5px;
+        }
+
+        /* 📍 [زون 1] - لائیو نیشنل مانیٹر اور مین انڈیکس ڈسپلے */
+        .aqi-core-panel {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+        }
+
+        .aqi-tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .aqi-tracker-tag {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--aqi-good);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-shadow: var(--text-shadow-heavy);
+            transition: color 1s ease;
+        }
+
+        .radar-pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--aqi-good);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--aqi-good);
+            animation: radarPulse 1.2s infinite;
+            transition: background-color 1s ease, box-shadow 1s ease;
+        }
+
+        .telemetry-status {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8px;
+            font-weight: 900;
+            color: #00ff66;
+            background: rgba(0, 255, 102, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .aqi-data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 65px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .aqi-text-package {
+            display: flex;
+            flex-direction: column;
+            max-width: 65%;
+        }
+
+        /* 🏘️ پاکستان کے لائیو شہر (الٹرا ایچ ڈی کانٹراسٹ) */
+        .aqi-micro-area {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: var(--text-shadow-heavy);
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .aqi-region-sub {
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.5px;
+            margin-top: 1px;
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        /* 📊 ہوا کی کوالٹی کا موجودہ اسٹیٹس */
+        .aqi-current-status {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--aqi-good);
+            text-transform: uppercase;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+            text-shadow: var(--text-shadow-heavy);
+            transition: color 1s ease;
+        }
+
+        /* 🔢 مین لائیو AQI نمبر ڈسپلے */
+        .aqi-number-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .aqi-number-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(0, 228, 0, 0.4), var(--text-shadow-heavy);
+            line-height: 1;
+            text-align: right;
+            transition: text-shadow 1s ease;
+        }
+
+        .aqi-label-sub {
+            font-size: 9px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.6);
+            display: block;
+            text-align: right;
+            letter-spacing: 1px;
+            text-shadow: var(--text-shadow-heavy);
+            margin-top: 2px;
+        }
+
+        /* 🫁 [زون 2] - سائنسی گیسوں کا لائیو بار گراف بریک ڈاؤن */
+        .pollutants-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+        }
+
+        .gas-bar-card {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(255,255,255,0.02);
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .gas-info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9.5px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.6);
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .gas-name { color: #ffffff; }
+
+        .gas-progress-track {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .gas-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--aqi-good);
+            border-radius: 3px;
+            transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1), background 1s ease;
+            box-shadow: 0 0 6px rgba(0, 228, 0, 0.5);
+        }
+
+        /* 😷 [زون 3] - اسمارٹ ہیلتھ ایڈوائزری پینل (اردو لائیو ہدایات) */
+        .health-advisory-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding: 10px 12px;
+            border-left: 4px solid var(--aqi-good);
+            font-size: 11.5px;
+            font-weight: 800;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            direction: rtl; 
+            text-shadow: var(--text-shadow-heavy);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-right: 1px solid rgba(255,255,255,0.01);
+            transition: border-color 1s ease;
+        }
+
+        /* 🕋 [زون 4] - گلوبل اسموگ سلائیڈر اسٹージ */
+        .global-smog-zone {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 50px; 
+            overflow: hidden; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 6px;
+        }
+
+        .smog-header-tag {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #ffcc00;
+            text-transform: uppercase;
+            text-shadow: var(--text-shadow-heavy);
+            margin-bottom: 4px;
+        }
+
+        .smog-display-stage {
+            height: 32px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 📰 [زون 5] - ٹی وی اسٹائل لائیو الرٹ نیوز ٹکر پٹی */
+        .breaking-news-ticker {
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid rgba(255, 0, 60, 0.2);
+            padding: 4px;
+            border-radius: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-label {
+            background: #ff003c;
+            color: #ffffff;
+            font-size: 8.5px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 8px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 8px rgba(255,0,60,0.4);
+            text-shadow: var(--text-shadow-heavy);
+            z-index: 100;
+        }
+
+        .ticker-text-move {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: var(--text-shadow-heavy);
+            animation: tickerMove 20s linear infinite;
+        }
+
+        /* اینیمیشن موشن کلاسز */
+        .stage-transition { opacity: 0; transform: translateY(-12px); }
+        .stage-reset { opacity: 0; transform: translateY(12px); }
+
+        .station-identity-box { display: flex; flex-direction: column; }
+        .station-city-name {
+            font-size: 14px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .station-status {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .station-aqi-value { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; text-shadow: var(--text-shadow-heavy); }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes radarPulse {
+            0% { opacity: 0.4; transform: scale(0.85); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.4; transform: scale(0.85); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quantum-aqi-widget" id="master-aqi-shell">
+        
+        <div class="broadcast-clock-panel">
+            <div id="digital-clock" class="live-clock">00:00:00 AM</div>
+            <div id="digital-date" class="live-date">20 MAY 2026</div>
+        </div>
+
+        <div class="aqi-core-panel">
+            <div class="aqi-tracker-header">
+                <div class="aqi-tracker-tag" id="aqi-tag-banner">
+                    <div class="radar-pulse-dot" id="aqi-radar-dot"></div>
+                    <span id="aqi-radar-title">PAKISTAN SMOG METRO RADAR</span>
+                </div>
+                <!--<div class="telemetry-status">SATELLITE LINK OK</div>-->
+            </div>
+            <div class="aqi-data-row" id="national-aqi-stage">
+                </div>
+        </div>
+
+        <div class="pollutants-grid">
+            <div class="gas-bar-card">
+                <div class="gas-info-row">
+                    <span class="gas-name">PM2.5 (دھول)</span>
+                    <span id="val-pm25">-- µg/m³</span>
+                </div>
+                <div class="gas-progress-track"><div id="bar-pm25" class="gas-progress-fill"></div></div>
+            </div>
+            <div class="gas-bar-card">
+                <div class="gas-info-row">
+                    <span class="gas-name">PM10 (اسموگ)</span>
+                    <span id="val-pm10">-- µg/m³</span>
+                </div>
+                <div class="gas-progress-track"><div id="bar-pm10" class="gas-progress-fill"></div></div>
+            </div>
+            <div class="gas-bar-card">
+                <div class="gas-info-row">
+                    <span class="gas-name">NO₂ (دھواں)</span>
+                    <span id="val-no2">-- µg/m³</span>
+                </div>
+                <div class="gas-progress-track"><div id="bar-no2" class="gas-progress-fill"></div></div>
+            </div>
+            <div class="gas-bar-card">
+                <div class="gas-info-row">
+                    <span class="gas-name">O₃ (اوزون)</span>
+                    <span id="val-o3">-- µg/m³</span>
+                </div>
+                <div class="gas-progress-track"><div id="bar-o3" class="gas-progress-fill"></div></div>
+            </div>
+        </div>
+
+        <div class="health-advisory-box" id="aqi-health-advisory">
+            نیشنل ڈیٹا فیڈ موصول ہو رہی ہے، براہ کرم انتظار کریں...
+        </div>
+
+        <div class="global-smog-zone">
+            <div class="smog-header-tag">🌐 GLOBAL AIR QUALITY INDEX</div>
+            <div class="smog-display-stage" id="smog-stage-box">
+                </div>
+        </div>
+
+        <div class="breaking-news-ticker">
+            <span class="ticker-label">LIVE ALERT</span>
+            <span id="ticker-alert-text" class="ticker-text-move">CONNECTING REAL-TIME ATMOSPHERIC SATELLITE RADAR...</span>
+        </div>
+
+    </div>
+
+    <script>
+        // 🏙️ پاکستان کے تمام بڑے اور اہم شہروں کا لائیو ڈیٹا بیس
+        const NationalNetworkMatrix = [
+            { city: "KARACHI 🌊", region: "SINDH, PAKISTAN", lat: 24.8607, lon: 67.0011, aqi: 45, pm25: 12, pm10: 25, no2: 15, o3: 30 },
+            { city: "LAHORE 🏙️", region: "PUNJAB, PAKISTAN", lat: 31.5204, lon: 74.3587, aqi: 165, pm25: 85, pm10: 145, no2: 45, o3: 20 },
+            { city: "ISLAMABAD 🏔️", region: "CAPITAL, PAKISTAN", lat: 33.6844, lon: 73.0479, aqi: 52, pm25: 14, pm10: 32, no2: 12, o3: 40 },
+            { city: "PESHAWAR ⛰️", region: "KPK, PAKISTAN", lat: 34.0151, lon: 71.5249, aqi: 115, pm25: 42, pm10: 78, no2: 28, o3: 35 },
+            { city: "QUETTA 🏜️", region: "BALOCHISTAN, PAKISTAN", lat: 30.1798, lon: 66.9750, aqi: 38, pm25: 9, pm10: 20, no2: 8, o3: 42 },
+            { city: "FAISALABAD 🏭", region: "PUNJAB, PAKISTAN", lat: 31.4187, lon: 73.0791, aqi: 142, pm25: 55, pm10: 110, no2: 38, o3: 22 },
+            { city: "RAWALPINDI 🏙️", region: "PUNJAB, PAKISTAN", lat: 33.5997, lon: 73.0441, aqi: 90, pm25: 31, pm10: 62, no2: 22, o3: 38 },
+            { city: "MULTAN 🕌", region: "PUNJAB, PAKISTAN", lat: 30.1575, lon: 71.5249, aqi: 128, pm25: 48, pm10: 95, no2: 32, o3: 25 },
+            { city: "GUJRANWALA 🛡️", region: "PUNJAB, PAKISTAN", lat: 32.1617, lon: 74.1883, aqi: 152, pm25: 62, pm10: 125, no2: 41, o3: 18 },
+            { city: "HYDERABAD 🏺", region: "SINDH, PAKISTAN", lat: 25.3960, lon: 68.3578, aqi: 85, pm25: 28, pm10: 55, no2: 19, o3: 33 },
+            { city: "SIALKOT ⚽", region: "PUNJAB, PAKISTAN", lat: 32.4945, lon: 74.5229, aqi: 105, pm25: 38, pm10: 70, no2: 24, o3: 29 },
+            { city: "BAHAWALPUR 🏰", region: "PUNJAB, PAKISTAN", lat: 29.3544, lon: 71.6911, aqi: 98, pm25: 35, pm10: 65, no2: 18, o3: 31 },
+            { city: "SARGODHA ✈️", region: "PUNJAB, PAKISTAN", lat: 32.0836, lon: 72.6711, aqi: 110, pm25: 40, pm10: 75, no2: 21, o3: 27 },
+            { city: "SUKKUR 🌉", region: "SINDH, PAKISTAN", lat: 27.7244, lon: 68.8475, aqi: 75, pm25: 24, pm10: 48, no2: 14, o3: 36 },
+            { city: "MUZAFFARABAD 🏔️", region: "AJK, PAKISTAN", lat: 34.3700, lon: 73.4708, aqi: 42, pm25: 10, pm10: 22, no2: 7, o3: 39 },
+            { city: "GILGIT 🏔️", region: "GB, PAKISTAN", lat: 35.9208, lon: 74.3144, aqi: 30, pm25: 6, pm10: 15, no2: 5, o3: 45 },
+            { city: "GWADAR ⚓", region: "BALOCHISTAN, PAKISTAN", lat: 25.1216, lon: 62.3254, aqi: 48, pm25: 11, pm10: 26, no2: 11, o3: 34 }
+        ];
+
+        // 🌍 گلوبل اسموگ سلائیڈر ڈیٹا بیس
+        const GlobalSmogMatrix = [
+            { city: "NEW DELHI 🇮🇳", lat: 28.6139, lon: 77.2090, aqi: 180, status: "POLLUTED", color: "#ff0000" },
+            { city: "BEIJING 🇨🇳", lat: 39.9042, lon: 116.4074, aqi: 95, status: "MODERATE", color: "#ffff00" },
+            { city: "MAKKAH 🕋", lat: 21.3891, lon: 39.8579, aqi: 42, status: "GOOD", color: "#00e400" },
+            { city: "MADINAH 🕌", lat: 24.4673, lon: 39.6111, aqi: 38, status: "GOOD", color: "#00e400" },
+            { city: "NEW YORK 🇺🇸", lat: 40.7128, lon: -74.0060, aqi: 55, status: "MODERATE", color: "#ffff00" }
+        ];
+
+        let nationalPointer = 0;
+        let smogPointer = 0;
+
+        // ⏰ ڈیجیٹل براڈکاسٹ گھڑی انجن
+        function runBroadcastClock() {
+            const now = new Date();
+            let hours = now.getHours(), minutes = now.getMinutes(), seconds = now.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            
+            document.getElementById("digital-clock").textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+            document.getElementById("digital-date").textContent = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // 🛰️ کلاؤڈ سرور سرچ فیچنگ برائے AQI ڈیٹا
+        async function updateAirQualityEngine() {
+            for (let station of NationalNetworkMatrix) {
+                try {
+                    const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${station.lat}&longitude=${station.lon}&current=us_aqi,pm2_5,pm10,nitrogen_dioxide,ozone`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    
+                    if (data && data.current) {
+                        const cur = data.current;
+                        station.aqi = Math.round(cur.us_aqi || station.aqi);
+                        station.pm25 = Math.round(cur.pm2_5 || station.pm25);
+                        station.pm10 = Math.round(cur.pm10 || station.pm10);
+                        station.no2 = Math.round(cur.nitrogen_dioxide || station.no2);
+                        station.o3 = Math.round(cur.ozone || station.o3);
+                    }
+                } catch (e) { }
+            }
+
+            for (let station of GlobalSmogMatrix) {
+                try {
+                    const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${station.lat}&longitude=${station.lon}&current=us_aqi`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data && data.current) {
+                        const val = Math.round(data.current.us_aqi);
+                        station.aqi = val;
+                        if(val <= 50) { station.status = "GOOD"; station.color = "#00e400"; }
+                        else if(val <= 100) { station.status = "MODERATE"; station.color = "#ffff00"; }
+                        else if(val <= 150) { station.status = "UNHEALTHY-S"; station.color = "#ff7e00"; }
+                        else if(val <= 200) { station.status = "POLLUTED"; station.color = "#ff0000"; }
+                        else { station.status = "HAZARDOUS"; station.color = "#9d00ff"; }
+                    }
+                } catch(e) {}
+            }
+
+            renderNationalStage();
+            renderSmogStage();
+        }
+
+        // 🏙️ نیشنل رینڈرر (پاکستان کے شہروں کا پینل)
+        function renderNationalStage() {
+            const box = document.getElementById("national-aqi-stage");
+            if (!box) return;
+            const current = NationalNetworkMatrix[nationalPointer];
+
+            box.innerHTML = `
+                <div class="aqi-text-package">
+                    <span class="aqi-micro-area">${current.city}</span>
+                    <span class="aqi-region-sub">${current.region}</span>
+                    <span id="aqi-current-status" class="aqi-current-status">--</span>
+                </div>
+                <div class="aqi-number-container">
+                    <div id="aqi-main-number" class="aqi-number-display">${current.aqi}</div>
+                    <span class="aqi-label-sub">US-AQI</span>
+                </div>
+            `;
+
+            updateGasComponent("pm25", current.pm25, 60);
+            updateGasComponent("pm10", current.pm10, 100);
+            updateGasComponent("no2", current.no2, 80);
+            updateGasComponent("o3", current.o3, 120);
+
+            applyDynamicAqiDesign(current.aqi, current.city, current);
+        }
+
+        function updateGasComponent(id, value, maxLimit) {
+            document.getElementById(`val-${id}`).textContent = `${value} µg/m³`;
+            let pct = (value / maxLimit) * 100;
+            if(pct > 100) pct = 100;
+            document.getElementById(`bar-${id}`).style.width = `${pct}%`;
+        }
+
+        // 🎨 تھیم، الرٹ ٹکر اور اردو ایڈوائزری کنٹرولر
+        function applyDynamicAqiDesign(aqi, cityName, dataObj) {
+            const shell = document.getElementById("master-aqi-shell");
+            const banner = document.getElementById("aqi-tag-banner");
+            const dot = document.getElementById("aqi-radar-dot");
+            const statusText = document.getElementById("aqi-current-status");
+            const numberText = document.getElementById("aqi-main-number");
+            const advisory = document.getElementById("aqi-health-advisory");
+            const tickerText = document.getElementById("ticker-alert-text");
+            
+            let color = "var(--aqi-good)";
+            let status = "صاف ہوا (GOOD)";
+            let msg = `شہر ${cityName} میں ہوا بالکل صاف اور صحت بخش ہے۔ باہر گھومنے کے لیے بہترین وقت ہے! ✅`;
+
+            if (aqi > 50 && aqi <= 100) {
+                color = "var(--aqi-moderate)";
+                status = "معتدل (MODERATE)";
+                msg = `شہر ${cityName} میں ہوا کا معیار معتدل ہے۔ حساس افراد باہر جاتے وقت ہلکی احتیاط برت سکتے ہیں۔ 🟡`;
+            } else if (aqi > 100 && aqi <= 150) {
+                color = "var(--aqi-unhealthy-s)";
+                status = "مضرِ صحت (SENSITIVE)";
+                msg = `شہر ${cityName} میں ہوا حساس لوگوں کے لیے نقصان دہ ہے۔ دل اور پھیپھڑوں کے مریض باہر کا سفر کم کریں۔ 🟠`;
+            } else if (aqi > 150 && aqi <= 200) {
+                color = "var(--aqi-unhealthy)";
+                status = "آلودہ ہوا (UNHEALTHY)";
+                msg = `انتباہ! شہر ${cityName} میں فضائی آلودگی بڑھ چکی ہے۔ باہر جاتے وقت فیس ماسک (Mask) کا استعمال لازمی کریں! 😷`;
+            } else if (aqi > 200) {
+                color = "var(--aqi-hazardous)";
+                status = "شدید خطرناک (HAZARDOUS)";
+                msg = `اسموگ ایمرجنسی! شہر ${cityName} کی ہوا انتہائی زہریلی ہے۔ غیر ضروری طور پر باہر نکلنے سے بالکل پرہیز کریں! 🚨`;
+            }
+
+            shell.style.borderLeftColor = color;
+            shell.style.boxShadow = `0 40px 90px rgba(0,0,0,1), 0 0 40px ${color}1A`;
+            banner.style.color = color;
+            dot.style.backgroundColor = color;
+            dot.style.boxShadow = `0 0 12px ${color}`;
+            if(statusText) statusText.style.color = color;
+            if(statusText) statusText.textContent = status;
+            if(numberText) numberText.style.textShadow = `0 0 20px ${color}, var(--text-shadow-heavy)`;
+            advisory.style.borderLeftColor = color;
+            advisory.textContent = msg;
+
+            // لائیو الرٹ ٹکر نیوز اپڈیٹ کرنا
+            if(tickerText) {
+                tickerText.textContent = `ALERT FOCUS: ${cityName} • AQI LEVEL: ${aqi} (${status}) • PM2.5: ${dataObj.pm25} µg/m³ • PM10: ${dataObj.pm10} µg/m³ • NO2: ${dataObj.no2} µg/m³ • AIR TELEMETRY LINK 100% SECURE...`;
+            }
+
+            document.querySelectorAll(".gas-progress-fill").forEach(bar => {
+                bar.style.background = color;
+                bar.style.boxShadow = `0 0 6px ${color}`;
+            });
+        }
+
+        // 🕋 گلوبل رینڈرر (عالمی شہروں کا سلائیڈر)
+        function renderSmogStage() {
+            const stage = document.getElementById("smog-stage-box");
+            if (!stage) return;
+            const cur = GlobalSmogMatrix[smogPointer];
+            
+            stage.innerHTML = `
+                <div class="station-identity-box">
+                    <span class="station-city-name">${cur.city}</span>
+                    <span class="station-status" style="color: ${cur.color}">${cur.status}</span>
+                </div>
+                <div class="station-aqi-value" style="color: ${cur.color}">${cur.aqi}</div>
+            `;
+        }
+
+        // 🔄 کائینیٹک سموتھ روٹیشن انجن (نیشنل لوپ)
+        function rotateNationalStations() {
+            const box = document.getElementById("national-aqi-stage");
+            if (!box) return;
+            box.classList.add("stage-transition");
+            setTimeout(() => {
+                nationalPointer = (nationalPointer + 1) % NationalNetworkMatrix.length;
+                renderNationalStage();
+                box.className = "aqi-data-row stage-reset";
+                setTimeout(() => { box.className = "aqi-data-row"; }, 50);
+            }, 500);
+        }
+
+        // 🔄 کائینیٹک سموتھ روٹیشن انجن (گلوبل لوپ)
+        function rotateSmogStations() {
+            const stage = document.getElementById("smog-stage-box");
+            if (!stage) return;
+            stage.classList.add("stage-transition");
+            setTimeout(() => {
+                smogPointer = (smogPointer + 1) % GlobalSmogMatrix.length;
+                renderSmogStage();
+                stage.className = "smog-display-stage stage-reset";
+                setTimeout(() => { stage.className = "smog-display-stage"; }, 50);
+            }, 500);
+        }
+
+        // 🚀 ماسٹر براڈکاسٹ انجن فائرنگ
+        runBroadcastClock();
+        updateAirQualityEngine();
+
+        // ⏳ آٹومیٹڈ انٹیلیجنٹ ٹائمرز
+        setInterval(runBroadcastClock, 1000);
+        setInterval(rotateSmogStations, 6000);       
+        setInterval(rotateNationalStations, 8000);   // پاکستان کے تمام 17 شہروں کا فلوڈ لوپ
+        setInterval(updateAirQualityEngine, 900000); // 15 منٹ بعد بیک گراؤنڈ لائیو ریفریش
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>

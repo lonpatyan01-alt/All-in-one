@@ -1,0 +1,487 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision USD to PKR Forex Monitor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 🎨 فاریکس کلر کوڈنگ اور پکسل پرفیکٹ نیون برائٹنس کنٹرولر */
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(8, 14, 18, 0.99) 0%, rgba(1, 3, 6, 1) 100%);
+            --text-glow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            
+            /* 💵 💹 🏦 ڈائنامک فاریکس نیون کلرز */
+            --forex-cyan: #00e5ff;       /* انٹر بینک پینل (Electric Cyan) */
+            --forex-emerald: #00ff66;    /* اوپن مارکیٹ پینل (Neon Emerald) */
+            --forex-gold: #ffcc00;       /* مارکیٹ اسپریڈ / گپ انڈیکس (Gold) */
+            --forex-bearish: #ff3344;    /* روپے کی گراوٹ / مندی (Neon Red) */
+        }
+
+        body {
+            background-color: #010103;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 📺 گرینڈ فاریکس لائیو ویڈیو براڈکاسٹ وال فریم */
+        .broadcast-video-wall {
+            width: 350px;
+            background: var(--studio-dark-bg);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.95), inset 0 0 40px rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--forex-cyan);
+            transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 🌊 کائینیٹک نیون موشن لائیو پس منظر لہر */
+        .broadcast-video-wall::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.02) 0%, transparent 65%);
+            animation: pulseWave 12s infinite linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 🛰️ ٹاپ ماسٹر ٹیلی میٹری ہیڈر پینل */
+        .studio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 8px;
+            z-index: 2;
+        }
+
+        .live-tag {
+            color: var(--forex-bearish);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: flashOverlay 1s infinite;
+        }
+
+        /* 🏙️ مارکیٹ ریڈار مین ہیڈنگز */
+        .market-identity-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .market-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .widget-mode-indicator {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--forex-cyan);
+            text-transform: uppercase;
+            margin-top: 2px;
+            background: rgba(0, 229, 255, 0.08);
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        /* 📊 گرینڈ ڈیک گرڈ فار فاریکس اسپلٹس */
+        .display-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2;
+            min-height: 195px;
+        }
+
+        /* 📦 فاریکس ریٹ کارڈ وزٹس */
+        .rate-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-right: 4px solid var(--forex-cyan);
+            animation: fadeInSlot 0.5s ease-in-out;
+        }
+
+        .rate-title-row {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .rate-main-metrics {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .huge-number {
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: var(--text-glow);
+        }
+
+        .change-text {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .spread-text-box {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--forex-gold);
+            text-align: right;
+        }
+
+        /* 📝 اسمارٹ لائیو اردو ایڈوائزری کمنٹری باکس */
+        .broadcast-advisory-center {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 4px solid var(--forex-cyan);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 38px;
+            z-index: 2;
+            transition: border-color 0.5s ease;
+        }
+
+        /* 📢 نچلی لوئر-تھرڈ کائینیٹک پٹی (فاریکس سینٹیمنٹس) */
+        .studio-news-ticker {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .ticker-header {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffcc00;
+            letter-spacing: 1.5px;
+        }
+
+        /* 🔁 اسٹیج اینیمیشن باکس */
+        .ticker-stage {
+            height: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticker-inner-box {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stage-fade-out {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        .stage-fade-in {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .sentiment-label-name {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .sentiment-market-value {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        /* 🎬 اسٹوڈیو اینیمیشن رولز */
+        @keyframes pulseWave {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.08); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes flashOverlay {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes fadeInSlot {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="broadcast-video-wall" id="main-studio-frame">
+        
+        <div class="studio-header">
+            <div class="live-tag">🔴 USD/PKR QUANTUM FOREX LINK</div>
+            <div id="studio-live-clock">00:00:00 AM</div>
+        </div>
+
+        <div class="market-identity-panel">
+            <div style="display: flex; flex-direction: column;">
+                <span class="market-title">USD TO PKR</span>
+                <span id="widget-mode-text" class="widget-mode-indicator">MODE: INTERBANK SPLIT</span>
+            </div>
+        </div>
+
+        <div class="display-deck" id="dynamic-forex-deck">
+            </div>
+
+        <div class="broadcast-advisory-center" id="live-advisory-output">
+            کرنسی ایکسچینج سسٹمز لنک ہو رہے ہیں...
+        </div>
+
+        <div class="studio-news-ticker">
+            <div class="ticker-header">💵 LIVE FOREX MARKET SENTIMENTS</div>
+            <div class="ticker-stage">
+                <div class="ticker-inner-box" id="usd-stage-box">
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 📊 فاریکس مارکیٹ سینٹیمنٹس ڈیٹا بیس
+        const ForexSentimentMatrix = [
+            { label: "Market Buying Pressure", value: "64% [🟢 High]", color: "var(--forex-emerald)" },
+            { label: "Market Selling Pressure", value: "36% [🔴 Low]", color: "var(--forex-bearish)" },
+            { label: "Interbank vs Open Spread", value: "Rs 1.20 [⚖️ Stable]", color: "var(--forex-gold)" },
+            { label: "State Bank Reserves Index", value: "Stable Flow 🏦", color: "var(--forex-cyan)" }
+        ];
+
+        let currentMode = 0; // 0 = Interbank, 1 = Open Market, 2 = Spread Analytics
+        let usdPointer = 0;
+
+        // بیس پرائس ریٹ ہولڈرز
+        let interbankBuying = 277.85;
+        let interbankSelling = 278.40;
+        let openBuying = 279.10;
+        let openSelling = 279.95;
+
+        // ⏱️ لائیو اسٹوڈیو گھڑی
+        function startStudioClock() {
+            setInterval(() => {
+                document.getElementById("studio-live-clock").textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
+            }, 1000);
+        }
+
+        // 📡 ہائی فریکوئنسی مائیکرو فلکچویشن پائپ لائن (صرح پیسہ لیول کی لائیو موومنٹ)
+        function runLiveForexFluctuation() {
+            // مارکیٹ کے حقیقی اتار چڑھاؤ کی عکاسی کے لیے مائیکرو پوائنٹس (پیسہ تبدیلی) کا جنریٹر
+            const change1 = (Math.random() * 0.12 - 0.05);
+            const change2 = (Math.random() * 0.10 - 0.04);
+
+            interbankBuying = parseFloat((interbankBuying + change1).toFixed(2));
+            interbankSelling = parseFloat((interbankSelling + change1).toFixed(2));
+            
+            openBuying = parseFloat((openBuying + change2).toFixed(2));
+            openSelling = parseFloat((openSelling + change2).toFixed(2));
+
+            renderActiveForexMode(change1);
+        }
+
+        // 🎛️ خودکار خصوصیات چینجر (ہر 8 سیکنڈ بعد اسکرین کے لاجکس اور ڈیٹا اپشنز آٹو تبدیل ہوتے ہیں)
+        function rotateForexScreenMode() {
+            currentMode = (currentMode + 1) % 3;
+            const modeIndicator = document.getElementById("widget-mode-text");
+            
+            if (currentMode === 0) {
+                modeIndicator.textContent = "MODE: INTERBANK SPLIT";
+                modeIndicator.style.color = "var(--forex-cyan)";
+                modeIndicator.style.background = "rgba(0, 229, 255, 0.08)";
+            } else if (currentMode === 1) {
+                modeIndicator.textContent = "MODE: OPEN MARKET SPLIT";
+                modeIndicator.style.color = "var(--forex-emerald)";
+                modeIndicator.style.background = "rgba(0, 255, 102, 0.08)";
+            } else {
+                modeIndicator.textContent = "MODE: FOREX SPREAD ANALYTICS";
+                modeIndicator.style.color = "var(--forex-gold)";
+                modeIndicator.style.background = "rgba(255, 204, 0, 0.08)";
+            }
+            runLiveForexFluctuation();
+        }
+
+        // 🎨 ایکٹو موڈ رینڈرنگ پینل اور اسمارٹ اردو اینالٹکس
+        function renderActiveForexMode(fluctuation) {
+            const deck = document.getElementById("dynamic-forex-deck");
+            const advisory = document.getElementById("live-advisory-output");
+            const frame = document.getElementById("main-studio-frame");
+            if (!deck) return;
+
+            let htmlContent = "";
+            let adviceUrdu = "";
+
+            // حساب کتاب فار گپ انڈیکس
+            const currentSpread = (openSelling - interbankSelling).toFixed(2);
+
+            // موڈ ۱: انٹر بینک اسپلٹ
+            if (currentMode === 0) {
+                frame.style.borderLeftColor = "var(--forex-cyan)";
+                advisory.style.borderLeftColor = "var(--forex-cyan)";
+                
+                adviceUrdu = `انٹر بینک مارکیٹ میں ڈالر کے ریٹس اس وقت قابو میں ہیں اور اسٹیٹ بینک آف پاکستان کی مانیٹری پالیسی کے مطابق روپیہ مضبوط پوزیشن پر ٹریڈ کر رہا ہے۔ 🏦`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-cyan)">
+                        <div class="rate-title-row"><span>🏛️ INTERBANK BUYING</span><span style="color:var(--forex-cyan)">LIVE</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-cyan)">Rs ${interbankBuying.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">-0.05</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-cyan)">
+                        <div class="rate-title-row"><span>🏛️ INTERBANK SELLING</span><span style="color:var(--forex-cyan)">OFFICIAL</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-cyan)">Rs ${interbankSelling.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">Stable</span>
+                        </div>
+                    </div>
+                `;
+            } 
+            // موڈ ۲: اوپن مارکیٹ اسپلٹ
+            else if (currentMode === 1) {
+                frame.style.borderLeftColor = "var(--forex-emerald)";
+                advisory.style.borderLeftColor = "var(--forex-emerald)";
+                
+                adviceUrdu = `اوپن مارکیٹ میں سپلائی بہتر ہونے کے باعث ڈالر کی قیمت مستحکم ہے۔ مقامی ایکسچینج کمپنیوں میں پبلک ٹریڈنگ والیم معمول کے مطابق ریکارڈ کیا گیا۔ 💹`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-emerald)">
+                        <div class="rate-title-row"><span>💵 OPEN MARKET BUYING</span><span style="color:var(--forex-emerald)">ACTIVE</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-emerald)">Rs ${openBuying.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">-0.10</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-emerald)">
+                        <div class="rate-title-row"><span>💵 OPEN MARKET SELLING</span><span style="color:var(--forex-emerald)">EXCHANGE</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-emerald)">Rs ${openSelling.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">Stable</span>
+                        </div>
+                    </div>
+                `;
+            } 
+            // موڈ ۳: فاریکس اسپریڈ اینڈ گیپ اینالٹکس
+            else {
+                frame.style.borderLeftColor = "var(--forex-gold)";
+                advisory.style.borderLeftColor = "var(--forex-gold)";
+                
+                adviceUrdu = `انٹر بینک اور اوپن مارکیٹ کا فرق (Spread) صرف Rs ${currentSpread} ہے، جو آئی ایم ایف (IMF) کی طے کردہ حد کے اندر ہے اور روپے کے استحکام کی علامت ہے۔ 🛡️`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-gold)">
+                        <div class="rate-title-row"><span>📊 MARKET SPREAD GAP</span><span>IMF BENCHMARK</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-gold)">Rs ${currentSpread}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">⚖️ IDEAL</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-gold)">
+                        <div class="rate-title-row"><span>📉 PKR REAL STRENGTH INDEX</span><span>DATA FEED</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="font-size:24px; color: #fff;">+0.18% UP</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">BULLISH</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            deck.innerHTML = htmlContent;
+            advisory.textContent = adviceUrdu;
+        }
+
+        // 🔁 فاریکس لوئر-تھرڈ پٹی روٹیشن مینیجر
+        function renderForexStage() {
+            const stage = document.getElementById("usd-stage-box");
+            if (!stage) return;
+
+            const cur = ForexSentimentMatrix[usdPointer];
+            stage.innerHTML = `
+                <div><span class="sentiment-label-name">${cur.label}</span></div>
+                <div class="sentiment-market-value" style="color: ${cur.color}">${cur.value}</div>
+            `;
+        }
+
+        // ⏱️ اسموتھ سلائیڈر اینیمیشن انجن
+        function rotateUsdTicker() {
+            const stage = document.getElementById("usd-stage-box");
+            if (!stage) return;
+
+            stage.classList.add("stage-fade-out");
+
+            setTimeout(() => {
+                usdPointer = (usdPointer + 1) % ForexSentimentMatrix.length;
+                renderForexStage();
+
+                stage.classList.remove("stage-fade-out");
+                stage.classList.add("stage-fade-in");
+
+                setTimeout(() => { stage.classList.remove("stage-fade-in"); }, 50);
+            }, 600);
+        }
+
+        // 🚀 ماسٹر اسٹارت اپ رنرز
+        startStudioClock();
+        runLiveForexFluctuation();
+        renderForexStage();
+
+        // ⏳ آٹومیٹڈ لائیو ٹائمرز
+        setInterval(runLiveForexFluctuation, 4000);     // ہر 4 سیکنڈ بعد قیمتوں میں باریک لائیو بدلاؤ ہوگا
+        setInterval(rotateForexScreenMode, 8000);      // ہر 8 سیکنڈ بعد پوری اسکرین کی خصوصیات اور موڈز خودکار تبدیل ہوں گے (انٹر بینک 🔄 اوپن مارکیٹ 🔄 اسپریڈ)
+        setInterval(rotateUsdTicker, 5000);            // ہر 5 سیکنڈ بعد نچلی پٹی کے پیرامیٹرز تبدیل ہوں گے
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>

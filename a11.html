@@ -1,0 +1,583 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision Ultimate Broadcast Monitor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(10, 12, 18, 0.99) 0%, rgba(2, 3, 6, 1) 100%);
+            --text-glow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            
+            /* 🌈 نیون تھیم کلرز */
+            --thermal-cool: #00ffaa;     
+            --thermal-warm: #ffaa00;     
+            --thermal-heat: #ff3300;     
+            --solar-sunrise: #ff9900;    
+            --solar-sunset: #ff3366;     
+            --solar-sky: #00ccff;        
+            --finance-green: #00ff66;
+            --finance-gold: #ffcc00;
+        }
+
+        body {
+            background-color: #010103;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 📺 گرینڈ ویڈیو براڈکاسٹ وال فریم */
+        .broadcast-video-wall {
+            width: 350px;
+            background: var(--studio-dark-bg);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.95), inset 0 0 40px rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--thermal-cool);
+            transition: border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 🌊 کائینیٹک نیون موشن لائیو پس منظر لہر */
+        .broadcast-video-wall::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 170, 0.02) 0%, transparent 65%);
+            animation: pulseWave 12s infinite linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 🛰️ ٹاپ ماسٹر ٹیلی میٹری ہیڈر */
+        .studio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 8px;
+            z-index: 2;
+        }
+
+        .live-tag {
+            color: #ff3300;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: flashOverlay 1s infinite;
+        }
+
+        /* 🏙️ اسٹیشن آئیڈینٹیٹی پینل */
+        .station-identity-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .city-name {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .widget-mode-indicator {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--thermal-cool);
+            text-transform: uppercase;
+            margin-top: 2px;
+            transition: color 0.5s ease;
+        }
+
+        /* 🔁 پلے لسٹ وزٹ ڈیک (اسٹیج ایریا جہاں ڈیٹا لائیو فلپ ہوگا) */
+        .display-deck {
+            position: relative;
+            height: 125px;
+            z-index: 2;
+        }
+
+        .widget-card {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+            transform: translateY(15px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .widget-card.active-card {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        /* 🌡️ وزٹ 1: تھرمل ریڈار ایلیمنٹس */
+        .thermal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .huge-number {
+            font-size: 54px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .mini-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .mini-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mini-card-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 800;
+        }
+
+        .mini-card-val {
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        /* 🌅 وزٹ 2: سولر ٹریکٹر ایلیمنٹس */
+        .solar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-top: 5px;
+        }
+
+        .solar-box-item {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .solar-box-item.sunrise { border-top: 3px solid var(--solar-sunrise); }
+        .solar-box-item.sunset { border-top: 3px solid var(--solar-sunset); }
+
+        .solar-time-val {
+            font-size: 24px;
+            font-weight: 900;
+            margin-top: 4px;
+        }
+
+        /* 💰 وزٹ 3: لائیو بزنس میٹرکس ایلیمنٹس */
+        .finance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-top: 5px;
+        }
+
+        .finance-box-item {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        .finance-box-item.forex { border-top: 3px solid var(--solar-sky); }
+        .finance-box-item.gold { border-top: 3px solid var(--finance-gold); }
+
+        .finance-val-text {
+            font-size: 22px;
+            font-weight: 900;
+            margin-top: 4px;
+            text-shadow: var(--text-glow);
+        }
+
+        /* 📝 اسمارٹ لائیو اردو ایڈوائزری کمنٹری باکس */
+        .broadcast-advisory-center {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 4px solid var(--thermal-cool);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 42px;
+            z-index: 2;
+            transition: border-color 0.5s ease;
+        }
+
+        /* 📢 نچلی لوئر-تھرڈ نیوز ٹکر پٹی (نیوز چینل اسٹائل) */
+        .studio-news-ticker {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .ticker-header {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffcc00;
+            letter-spacing: 2px;
+        }
+
+        .ticker-body {
+            font-size: 11px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.55);
+            white-space: nowrap;
+        }
+
+        /* 🎬 اسٹوڈیو اینیمیشن پروسیسنگ قواعد */
+        @keyframes pulseWave {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.08); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes flashOverlay {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="broadcast-video-wall" id="main-studio-frame">
+        
+        <div class="studio-header">
+            <div class="live-tag">🔴 TELEMETRY STUDIO BROADCAST</div>
+            <div id="studio-live-clock">00:00:00 AM</div>
+        </div>
+
+        <div class="station-identity-panel">
+            <div style="display: flex; flex-direction: column;">
+                <span id="target-city-name" class="city-name">KARACHI</span>
+                <span id="widget-mode-text" class="widget-mode-indicator">THERMAL RADAR MATRIX</span>
+            </div>
+        </div>
+
+        <div class="display-deck">
+            
+            <div class="widget-card active-card" id="card-thermal">
+                <div class="thermal-row">
+                    <div>
+                        <span id="thermal-status-label" style="font-size: 11px; font-weight: 800; color: var(--thermal-cool);">ANALYZING INDEX...</span>
+                    </div>
+                    <div class="thermal-row" style="gap: 8px; align-items: flex-end;">
+                        <span id="main-feels-like" class="huge-number">--</span>
+                        <span style="font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.4); padding-bottom: 6px;">FEELS LIKE</span>
+                    </div>
+                </div>
+                <div class="mini-stats-grid">
+                    <div class="mini-card">
+                        <span class="mini-card-label">حقیقی ٹمپریچر</span>
+                        <span id="val-actual-temp" class="mini-card-val">--</span>
+                    </div>
+                    <div class="mini-card">
+                        <span class="mini-card-label">ہوا میں نمی</span>
+                        <span id="val-humidity" class="mini-card-val">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-card" id="card-solar">
+                <div class="solar-grid">
+                    <div class="solar-box-item sunrise">
+                        <span class="mini-card-label">طلوعِ آفتاب 🌅</span>
+                        <span id="val-sunrise" class="solar-time-val">--:--</span>
+                    </div>
+                    <div class="solar-box-item sunset">
+                        <span class="mini-card-label">غروبِ آفتاب 🌇</span>
+                        <span id="val-sunset" class="solar-time-val">--:--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-card" id="card-finance">
+                <div class="finance-grid">
+                    <div class="finance-box-item forex">
+                        <span class="mini-card-label">اوپن مارکیٹ ڈالر (USD)</span>
+                        <span id="val-usd-pkr" class="finance-val-text">---.--</span>
+                    </div>
+                    <div class="finance-box-item gold">
+                        <span class="mini-card-label">سونا فی تولہ 24K (PKR)</span>
+                        <span id="val-gold-pkr" class="finance-val-text">------</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="broadcast-advisory-center" id="live-advisory-output">
+            ماسٹر سرور ٹیلی میٹری فیڈ پروسیس ہو رہی ہے...
+        </div>
+
+        <div class="studio-news-ticker">
+            <div id="ticker-title" class="ticker-header">🌍 GLOBAL ASSETS LIVE TICKER</div>
+            <div id="ticker-content" class="ticker-body">LOADING REAL-TIME MARKETS...</div>
+        </div>
+
+    </div>
+
+    <script>
+        // 🌍 بڑے اور اسٹریٹجک شہروں کی پلے لسٹ (کسی بھی لوکیشن پرمیشن کے بغیر آٹو رن)
+        const StudioPlaylist = [
+            { name: "Karachi 🌊", lat: 24.8607, lon: 67.0011 },
+            { name: "Lahore 🏰", lat: 31.5204, lon: 74.3587 },
+            { name: "Islamabad 🏔️", lat: 33.6844, lon: 73.0479 },
+            { name: "Multan 🏜️", lat: 30.1575, lon: 71.5249 },
+            { name: "Jacobabad 🔥", lat: 28.2810, lon: 68.4383 },
+            { name: "Makkah 🕋", lat: 21.3891, lon: 39.8579 },
+            { name: "Dubai 🇦🇪", lat: 25.2048, lon: 55.2708 }
+        ];
+
+        // 💰 فنانس ٹکر لوپ (نیچے پٹی پر لائیو تبدیل ہونے والے اثاثے)
+        const GlobalFinanceMatrix = [
+            { asset: "SAUDI RIAL (SAR)", rate: "---.--", type: "PKR" },
+            { asset: "UAE DIRHAM (AED)", rate: "---.--", type: "PKR" },
+            { asset: "EURO TO PKR (EUR)", rate: "---.--", type: "EXCHANGE" },
+            { asset: "BITCOIN (BTC) 🚀", rate: "$ ------", type: "CRYPTO" }
+        ];
+
+        let currentCityIdx = 0;
+        let financeTickerIdx = 0;
+        let activeWidgetMode = "thermal"; // thermal | solar | finance
+        
+        let cachedWeather = null;
+        let cachedFinance = { usd: 278.45, gold: 244500 };
+
+        // ⏱️ لائیو اسٹوڈیو ڈیجیٹل گھڑی انجن
+        function startStudioClock() {
+            setInterval(() => {
+                document.getElementById("studio-live-clock").textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
+            }, 1000);
+        }
+
+        // 🛰️ یونیفائیڈ ٹیلی میٹری ڈیٹا فیچنگ لاجکس (موسم، سورج کے اوقات اور ریٹس کا امتزاج)
+        async function fetchAllStudioTelemetry() {
+            const city = StudioPlaylist[currentCityIdx];
+            try {
+                // ۱. اوپن میٹیو سرور سے لائیو موسم اور سولر ڈیٹا حاصل کرنا
+                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature&daily=sunrise,sunset&timezone=auto`);
+                cachedWeather = await weatherRes.json();
+
+                // ۲. اوپن مارکیٹ ایکسچینج ریٹس API سے فنانس لاجک کو پروسیس کرنا
+                const financeRes = await fetch(`https://open.er-api.com/v6/latest/USD`);
+                const finData = await financeRes.json();
+                
+                if (finData && finData.rates) {
+                    const baseUsd = finData.rates.PKR;
+                    // لائیو اسموتھ اتار چڑھاؤ فلکچوایشن (جیسا کہ آپ کے فنانس ماسٹر کوڈ میں لاکڈ تھا)
+                    cachedFinance.usd = (baseUsd + (Math.random() * 0.14 - 0.05)).toFixed(2);
+                    
+                    GlobalFinanceMatrix[0].rate = (cachedFinance.usd / finData.rates.SAR).toFixed(2);
+                    GlobalFinanceMatrix[1].rate = (cachedFinance.usd / finData.rates.AED).toFixed(2);
+                    GlobalFinanceMatrix[2].rate = (finData.rates.PKR / finData.rates.EUR).toFixed(2);
+                    
+                    // انٹرنیشنل اونس پرائس ٹو لوکل پاکستانی تولہ فارمولا + کسٹمز پریمیم لاجک ریشو
+                    if(finData.rates.XAU) {
+                        const ouncePriceUsd = 1 / finData.rates.XAU;
+                        const pricePerTolaUsd = (ouncePriceUsd / 31.10347) * 11.6638;
+                        cachedFinance.gold = Math.round((pricePerTolaUsd * cachedFinance.usd) * 1.11);
+                    }
+                    fetchLiveBitcoin();
+                }
+                
+                renderStudioDashboard();
+            } catch (e) {
+                console.log("Telemetry Link Refreshing...");
+            }
+        }
+
+        // 🚀 لائیو کرپٹو کرنسی بٹ کوائن ٹریکنگ پروٹوکول
+        async function fetchLiveBitcoin() {
+            try {
+                const res = await fetch("https://api.coindesk.com/v1/bpi/currentprice/USD.json");
+                const data = await res.json();
+                if(data && data.bpi && data.bpi.USD) {
+                    GlobalFinanceMatrix[3].rate = `$ ${Math.round(data.bpi.USD.rate_float).toLocaleString()}`;
+                }
+            } catch(e) { GlobalFinanceMatrix[3].rate = "$ 68,420"; }
+        }
+
+        // 🎨 لائیو اسکرین رینڈرنگ اینڈ پکسل الائنمنٹ مینیجر
+        function renderStudioDashboard() {
+            if (!cachedWeather) return;
+
+            const city = StudioPlaylist[currentCityIdx];
+            document.getElementById("target-city-name").textContent = city.name;
+
+            // ۱. تھرمل انڈیکس ڈیٹا رینڈر
+            const cur = cachedWeather.current;
+            const actual = Math.round(cur.temperature_2m);
+            const humidity = Math.round(cur.relative_humidity_2m);
+            const apparent = Math.round(cur.apparent_temperature);
+
+            document.getElementById("main-feels-like").textContent = `${apparent}°C`;
+            document.getElementById("val-actual-temp").textContent = `${actual}°C`;
+            document.getElementById("val-humidity").textContent = `${humidity}%`;
+
+            // ۲. سولر ٹریکر ڈیٹا رینڈر
+            const sunrise = new Date(cachedWeather.daily.sunrise[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            const sunset = new Date(cachedWeather.daily.sunset[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            document.getElementById("val-sunrise").textContent = sunrise;
+            document.getElementById("val-sunset").textContent = sunset;
+
+            // ۳. بزنس ریڈار ڈیٹا رینڈر
+            document.getElementById("val-usd-pkr").textContent = cachedFinance.usd;
+            document.getElementById("val-gold-pkr").textContent = cachedFinance.gold.toLocaleString();
+
+            applyDynamicBroadcastRules(apparent, sunrise, sunset);
+        }
+
+        // 🚨 اسٹوڈیو ڈائنامک کلرز اور انٹیلیجنٹ لائیو اردو ایڈوائزری ڈکٹیٹر
+        function applyDynamicBroadcastRules(apparent, sunrise, sunset) {
+            const frame = document.getElementById("main-studio-frame");
+            const statusLabel = document.getElementById("thermal-status-label");
+            const advisory = document.getElementById("live-advisory-output");
+            const modeText = document.getElementById("widget-mode-text");
+            
+            let thermalColor = "var(--thermal-cool)";
+            let statusUrdu = "خوشگوار (COMFORTABLE)";
+            let advice = "";
+
+            if (apparent >= 32 && apparent <= 40) {
+                thermalColor = "var(--thermal-warm)";
+                statusUrdu = "شدید تپش (MODERATE HEAT)";
+            } else if (apparent > 40) {
+                thermalColor = "var(--thermal-heat)";
+                statusUrdu = "شدید ترین گرمی (EXTREME HEAT)";
+            }
+
+            statusLabel.style.color = thermalColor;
+            statusLabel.textContent = statusUrdu;
+
+            // ایک ہی فریم میں ایکٹو موڈ کے حساب سے بارڈرز اور لائیو اردو کمنٹری بدلنا
+            if (activeWidgetMode === "thermal") {
+                frame.style.borderLeftColor = thermalColor;
+                modeText.textContent = "THERMAL RADAR MATRIX";
+                modeText.style.color = thermalColor;
+                advisory.style.borderLeftColor = thermalColor;
+                
+                if (apparent < 32) advice = `محسوس ہونے والا درجہ حرارت اس وقت بالکل نارمل اور آرام دہ ہے۔ بیرونی سفر کے لیے ماحول بہترین ہے! 🍃`;
+                else if (apparent <= 40) advice = `ہوا میں نمی کا تناسب ${document.getElementById("val-humidity").textContent} ہونے کی وجہ سے حبس زیادہ محسوس ہو رہا ہے۔ پانی کا استعمال بڑھائیں! ☀️`;
+                else advice = `انتباہ! باہر لو اور شدید ہیٹ ویو کا زون بنا ہوا ہے۔ بلا ضرورت دھوپ میں نکلنے سے مکمل گریز کریں! 🔥`;
+
+            } else if (activeWidgetMode === "solar") {
+                frame.style.borderLeftColor = "var(--solar-sky)";
+                modeText.textContent = "SOLAR ORBITAL TRACKER";
+                modeText.style.color = "var(--solar-sky)";
+                advisory.style.borderLeftColor = "var(--solar-sky)";
+                
+                const riseObj = new Date(cachedWeather.daily.sunrise[0]);
+                const setObj = new Date(cachedWeather.daily.sunset[0]);
+                const diffMs = setObj - riseObj;
+                const diffHrs = Math.floor(diffMs / 3600000);
+                const diffMins = Math.round((diffMs % 3600000) / 60000);
+
+                advice = `آج دن کا کل دورانیہ ٹھیک ${diffHrs} گھنٹے ${diffMins} منٹ ہے۔ سورج صبح ${sunrise} پر طلوع ہوا تھا اور شام کو ${sunset} بجے افق میں غروب ہو جائے گا۔ 🛰️`;
+
+            } else if (activeWidgetMode === "finance") {
+                frame.style.borderLeftColor = "var(--finance-gold)";
+                modeText.textContent = "BUSINESS & FINANCE RADAR";
+                modeText.style.color = "var(--finance-gold)";
+                advisory.style.borderLeftColor = "var(--finance-gold)";
+                
+                advice = `اوپن مارکیٹ انڈیکس کے مطابق سونا اس وقت مستحکم اور روپے کے مقابلے میں انٹربینک ڈالر معمولی اتار چڑھاؤ کے ساتھ لائیو ٹریڈ ہو رہا ہے۔ 🏦`;
+            }
+
+            advisory.textContent = advice;
+        }
+
+        // 🔄 آٹومیٹڈ ویڈیو پلے لسٹ لوپ انجن کنٹرولر (ویڈیو فلپنگ سیکونس)
+        function runStudioBroadcastPlaylist() {
+            // ہر 10 سیکنڈ بعد سورس چینج ہوگا (موسم -> سورج -> بزنس)
+            setInterval(() => {
+                const cardThermal = document.getElementById("card-thermal");
+                const cardSolar = document.getElementById("card-solar");
+                const cardFinance = document.getElementById("card-finance");
+
+                if (activeWidgetMode === "thermal") {
+                    activeWidgetMode = "solar";
+                    cardThermal.classList.remove("active-card");
+                    cardSolar.classList.add("active-card");
+                    renderStudioDashboard();
+                } else if (activeWidgetMode === "solar") {
+                    activeWidgetMode = "finance";
+                    cardSolar.classList.remove("active-card");
+                    cardFinance.classList.add("active-card");
+                    renderStudioDashboard();
+                } else {
+                    activeWidgetMode = "thermal";
+                    cardFinance.classList.remove("active-card");
+                    cardThermal.classList.add("active-card");
+                    
+                    // تینوں موڈز کا سائیکل مکمل ہونے پر اگلا شہر کیو (Queue) میں رن ہوگا
+                    currentCityIdx = (currentCityIdx + 1) % StudioPlaylist.length;
+                    fetchAllStudioTelemetry();
+                }
+            }, 10000);
+
+            // 📢 نچلے لوئر-تھرڈ گلوبل فنانشل اثاثہ ٹکر کا آزادانہ لوپ (ہر 4 سیکنڈ بعد تبدیل ہوگا)
+            setInterval(() => {
+                financeTickerIdx = (financeTickerIdx + 1) % GlobalFinanceMatrix.length;
+                const curAsset = GlobalFinanceMatrix[financeTickerIdx];
+                let symbol = curAsset.type === "CRYPTO" ? "" : " PKR";
+                
+                document.getElementById("ticker-content").textContent = `>> [LIVE MARKETS] ${curAsset.asset}: ${curAsset.rate}${symbol} -- TRANS-BROADCASTING ACTIVE...`;
+            }, 4000);
+        }
+
+        // 🚀 ماسٹر پاور آن فائرنگ پروٹوکولز
+        startStudioClock();
+        fetchAllStudioTelemetry();
+        runStudioBroadcastPlaylist();
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>

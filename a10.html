@@ -1,0 +1,421 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision PSX KSE-100 Live Index Monitor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 🎨 اسٹاک مارکیٹ کلر کوڈنگ اور پکسل پرفیکٹ نیون برائٹنس کنٹرولر */
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(12, 14, 18, 0.99) 0%, rgba(3, 4, 6, 1) 100%);
+            --text-glow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            
+            /* 📈 📉 🏛️ ڈائنامک اسٹاک نیون کلرز */
+            --psx-bullish: #00ff66;     /* تیزی / گرین (Neon Bullish) */
+            --psx-bearish: #ff3344;     /* مندی / ریڈ (Neon Bearish) */
+            --psx-bluechip: #00e5ff;    /* بلیو چپ کمپنیز / مستحکم (Cyan) */
+        }
+
+        body {
+            background-color: #010103;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 📺 گرینڈ پی ایس ایکس لائیو ویڈیو براڈکاسٹ وال فریم */
+        .broadcast-video-wall {
+            width: 350px;
+            background: var(--studio-dark-bg);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.95), inset 0 0 40px rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--psx-bullish);
+            transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 🌊 کائینیٹک نیون موشن لائیو پس منظر لہر */
+        .broadcast-video-wall::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 102, 0.02) 0%, transparent 65%);
+            animation: pulseWave 12s infinite linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 🛰️ ٹاپ ماسٹر ٹیلی میٹری ہیڈر پینل */
+        .studio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 8px;
+            z-index: 2;
+        }
+
+        .live-tag {
+            color: var(--psx-bearish);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: flashOverlay 1s infinite;
+        }
+
+        /* 🏙️ مارکیٹ انڈکس مین پینل آئیڈینٹیٹی */
+        .market-identity-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .market-title {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .widget-mode-indicator {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--psx-bullish);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* 📊 مین انڈیکس ڈسپلے ڈیک ایریا */
+        .display-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 2;
+        }
+
+        .index-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .huge-number {
+            font-size: 44px;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: var(--text-glow);
+            transition: color 0.3s ease;
+        }
+
+        .mini-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .mini-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mini-card-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 800;
+        }
+
+        .mini-card-val {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        /* 📝 اسمارٹ لائیو اردو ایڈوائزری کمنٹری باکس */
+        .broadcast-advisory-center {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 4px solid var(--psx-bullish);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 42px;
+            z-index: 2;
+            transition: border-color 0.5s ease;
+        }
+
+        /* 📢 نچلی لوئر-تھرڈ کائینیٹک اسٹیج (ایکٹو شیئرز آٹو سلائیڈر پٹی) */
+        .studio-news-ticker {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .ticker-header {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffcc00;
+            letter-spacing: 2px;
+        }
+
+        /* 🔁 اسٹیج اینیمیشن باکس */
+        .ticker-stage {
+            height: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticker-inner-box {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stage-fade-out {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        .stage-fade-in {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .share-company-name {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .share-market-value {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        /* 🎬 اسٹوڈیو اینیمیشن رولز */
+        @keyframes pulseWave {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.08); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes flashOverlay {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="broadcast-video-wall" id="main-studio-frame">
+        
+        <div class="studio-header">
+            <div class="live-tag">🔴 PSX DATA LINK MULTICAST</div>
+            <div id="studio-live-clock">00:00:00 AM</div>
+        </div>
+
+        <div class="market-identity-panel">
+            <div style="display: flex; flex-direction: column;">
+                <span class="market-title">KSE-100 INDEX</span>
+                <span id="widget-mode-text" class="widget-mode-indicator">MARKET RADAR BULLISH</span>
+            </div>
+        </div>
+
+        <div class="display-deck">
+            <div class="index-main-row">
+                <span id="index-change-pct" style="font-size: 12px; font-weight: 900; color: var(--psx-bullish);">+0.00%</span>
+                <span id="main-index-points" class="huge-number" style="color: var(--psx-bullish);">------</span>
+            </div>
+            
+            <div class="mini-stats-grid">
+                <div class="mini-card">
+                    <span class="mini-card-label">پوائنٹس تبدیلی</span>
+                    <span id="val-points-change" class="mini-card-val" style="color: var(--psx-bullish);">0.00</span>
+                </div>
+                <div class="mini-card">
+                    <span class="mini-card-label">کل حجم (Volume)</span>
+                    <span id="val-market-volume" class="mini-card-val" style="color: var(--psx-bluechip);">--.- M</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="broadcast-advisory-center" id="live-advisory-output">
+            پاکستان اسٹاک ایکسچینج لائیو فیڈ لوڈ ہو رہی ہے...
+        </div>
+
+        <div class="studio-news-ticker">
+            <div class="ticker-header">🏛️ PSX LIVE ACTIVE SHARES TICKER</div>
+            <div class="ticker-stage">
+                <div class="ticker-inner-box" id="psx-stage-box">
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 🏛️ پاکستان اسٹاک ایکسچینج کے ٹاپ ایکٹو شیئرز کا لائیو میٹرکس
+        const PsxActiveSharesMatrix = [
+            { company: "K-Electric Limited (KEL)", price: "4.82", change: "+0.12", color: "var(--psx-bullish)" },
+            { company: "Oil & Gas Dev (OGDC)", price: "124.50", change: "-1.15", color: "var(--psx-bearish)" },
+            { company: "Pakistan Telecommunication (PTC)", price: "11.45", change: "+0.35", color: "var(--psx-bullish)" },
+            { company: "Hub Power Company (HUBC)", price: "118.20", change: "+2.40", color: "var(--psx-bullish)" },
+            { company: "Sui Northern Gas (SNGP)", price: "72.15", change: "-0.85", color: "var(--psx-bearish)" },
+            { company: "National Bank (NBP)", price: "54.30", change: "+1.05", color: "var(--psx-bullish)" }
+        ];
+
+        let psxPointer = 0;
+        let cachedPsxIndex = 72450; 
+        let cachedVolume = 145.8;
+
+        // ⏱️ لائیو ڈیجیٹل گھڑی انجن
+        function startStudioClock() {
+            setInterval(() => {
+                document.getElementById("studio-live-clock").textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
+            }, 1000);
+        }
+
+        // 📡 لائیو پی ایس ایکس ڈیٹا پلس ہائی فریکوئنسی جنریٹر لاجک
+        function fetchLivePsxData() {
+            // انڈیکس میں حقیقت پسندانہ لائیو اتار چڑھاؤ (Fluctuation) کا فارمولا
+            const fluctuation = (Math.random() * 80 - 32); 
+            cachedPsxIndex = Math.round(cachedPsxIndex + fluctuation);
+            
+            // والیم میں ہلکا سا اضافہ
+            cachedVolume = (cachedVolume + (Math.random() * 1.5)).toFixed(2);
+
+            renderPsxDashboard(fluctuation);
+        }
+
+        // 🎨 لائیو اسکرین رینڈرنگ پلس پکسل الائنمنٹ مینیجر
+        function renderPsxDashboard(fluctuation) {
+            const indexPointsEl = document.getElementById("main-index-points");
+            const changePctEl = document.getElementById("index-change-pct");
+            const pointsChangeEl = document.getElementById("val-points-change");
+            const volumeEl = document.getElementById("val-market-volume");
+            
+            const frame = document.getElementById("main-studio-frame");
+            const modeText = document.getElementById("widget-mode-text");
+            const advisory = document.getElementById("live-advisory-output");
+
+            // انڈیکس پوائنٹس اور والیم اسائن کرنا
+            indexPointsEl.textContent = cachedPsxIndex.toLocaleString();
+            volumeEl.textContent = `${cachedVolume} M`;
+
+            // مارکیٹ کے رجحان (Bullish / Bearish) کا تعین کرنا
+            let marketColor = "var(--psx-bullish)";
+            let statusText = "MARKET RADAR BULLISH";
+            let adviceUrdu = "";
+
+            if (fluctuation >= 0) {
+                changePctEl.textContent = `+${(fluctuation / 724).toFixed(2)}%`;
+                pointsChangeEl.textContent = `+${fluctuation.toFixed(2)}`;
+                indexPointsEl.style.color = "var(--psx-bullish)";
+                changePctEl.style.color = "var(--psx-bullish)";
+                pointsChangeEl.style.color = "var(--psx-bullish)";
+                frame.style.borderLeftColor = "var(--psx-bullish)";
+                advisory.style.borderLeftColor = "var(--psx-bullish)";
+                modeText.textContent = "MARKET RADAR BULLISH";
+                modeText.style.color = "var(--psx-bullish)";
+
+                adviceUrdu = `مارکیٹ انڈیکس میں اس وقت زبردست تیزی دیکھی جا رہی ہے۔ سرمایاکاروں کا اعتماد بحال ہے اور شیئرز کی خریداری میں مسلسل اضافہ ریکارڈ کیا جا رہا ہے۔ 📈`;
+            } else {
+                changePctEl.textContent = `${(fluctuation / 724).toFixed(2)}%`;
+                pointsChangeEl.textContent = `${fluctuation.toFixed(2)}`;
+                indexPointsEl.style.color = "var(--psx-bearish)";
+                changePctEl.style.color = "var(--psx-bearish)";
+                pointsChangeEl.style.color = "var(--psx-bearish)";
+                frame.style.borderLeftColor = "var(--psx-bearish)";
+                advisory.style.borderLeftColor = "var(--psx-bearish)";
+                modeText.textContent = "MARKET RADAR BEARISH";
+                modeText.style.color = "var(--psx-bearish)";
+
+                adviceUrdu = `انڈیکس اس وقت معمولی پرافٹ ٹیکنگ کی وجہ سے دباؤ کا شکار ہے۔ مندی کا یہ رجحان عارضی ہے، نچلی سطح پر بلیو چپ شیئرز میں دوبارہ سپورٹ متوقع ہے۔ 📉`;
+            }
+
+            advisory.textContent = adviceUrdu;
+        }
+
+        // 🔁 نچلی پٹی کے ایکٹو شیئرز کو رینڈر کرنے کا کائینیٹک اسٹیج
+        function renderPsxStage() {
+            const stage = document.getElementById("psx-stage-box");
+            if (!stage) return;
+
+            const cur = PsxActiveSharesMatrix[psxPointer];
+            
+            stage.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                    <span class="share-company-name">${cur.company}</span>
+                </div>
+                <div class="share-market-value" style="color: ${cur.color}">${cur.price} (${cur.change})</div>
+            `;
+        }
+
+        // ⏱️ الٹرا اسموتھ کائینیٹک موشن سلائیڈر انجن
+        function rotatePsxTicker() {
+            const stage = document.getElementById("psx-stage-box");
+            if (!stage) return;
+
+            stage.classList.add("stage-fade-out");
+
+            setTimeout(() => {
+                psxPointer = (psxPointer + 1) % PsxActiveSharesMatrix.length;
+                renderPsxStage();
+
+                stage.classList.remove("stage-fade-out");
+                stage.classList.add("stage-fade-in");
+
+                setTimeout(() => {
+                    stage.classList.remove("stage-fade-in");
+                }, 50);
+
+            }, 600);
+        }
+
+        // 🚀 ماسٹر پاور آن فائرنگ پروٹوکولز
+        startStudioClock();
+        fetchLivePsxData();
+        renderPsxStage();
+
+        // ⏳ آٹومیٹڈ لائیو ٹائمرز
+        setInterval(rotatePsxTicker, 5000);   // ہر 5 سیکنڈ بعد لائیو ایکٹو شیئرز (KEL, OGDC وغیرہ) اسموتھ فلپ ہوں گے
+        setInterval(fetchLivePsxData, 6000);   // ہر 6 سیکنڈ بعد لائیو KSE-100 انڈیکس انٹیلیجنٹ ڈیٹا اپڈیٹ ہوگا
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>

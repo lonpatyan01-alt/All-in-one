@@ -1,0 +1,472 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision European Currencies Monitor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 🎨 یورپی فاریکس کلر کوڈنگ اور پکسل پرفیکٹ نیون برائٹنس کنٹرولر */
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(10, 10, 18, 0.99) 0%, rgba(2, 2, 6, 1) 100%);
+            --text-glow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            
+            /* 💷 💶 🇪🇺 ڈائنامک نیون کلرز */
+            --forex-gbp: #00e5ff;       /* برٹش پاؤنڈ (Electric Cyan) */
+            --forex-eur: #ffcc00;       /* یورو انڈیکس (Neon Gold) */
+            --forex-emerald: #00ff66;    /* تیزی / مستحکم (Neon Emerald) */
+            --forex-bearish: #ff3344;    /* روپے کی گراوٹ (Neon Red) */
+        }
+
+        body {
+            background-color: #010103;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 📺 گرینڈ یورپی فاریکس لائیو ویڈیو براڈکاسٹ وال فریم */
+        .broadcast-video-wall {
+            width: 350px;
+            background: var(--studio-dark-bg);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.95), inset 0 0 40px rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-right: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--forex-gbp);
+            transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 🌊 کائینیٹک نیون موشن لائیو پس منظر لہر */
+        .broadcast-video-wall::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.02) 0%, transparent 65%);
+            animation: pulseWave 12s infinite linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 🛰️ ٹاپ ماسٹر ٹیلی میٹری ہیڈر پینل */
+        .studio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 8px;
+            z-index: 2;
+        }
+
+        .live-tag {
+            color: var(--forex-bearish);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: flashOverlay 1s infinite;
+        }
+
+        /* 🏙️ مارکیٹ ریڈار مین ہیڈنگز */
+        .market-identity-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .market-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .widget-mode-indicator {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--forex-gbp);
+            text-transform: uppercase;
+            margin-top: 2px;
+            background: rgba(0, 229, 255, 0.08);
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        /* 📊 گرینڈ ڈیک گرڈ فار فاریکس اسپلٹس */
+        .display-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2;
+            min-height: 195px;
+        }
+
+        /* 📦 یورپی ریٹ کارڈ وزٹس */
+        .rate-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-right: 4px solid var(--forex-gbp);
+            animation: fadeInSlot 0.5s ease-in-out;
+        }
+
+        .rate-title-row {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .rate-main-metrics {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .huge-number {
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: var(--text-glow);
+        }
+
+        .change-text {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        /* 📝 اسمارٹ لائیو اردو ایڈوائزری کمنٹری باکس */
+        .broadcast-advisory-center {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 4px solid var(--forex-gbp);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 38px;
+            z-index: 2;
+            transition: border-color 0.5s ease;
+        }
+
+        /* 📢 نچلی لوئر-تھرڈ کائینیٹک پٹی */
+        .studio-news-ticker {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .ticker-header {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffcc00;
+            letter-spacing: 1.5px;
+        }
+
+        /* 🔁 اسٹیج اینیمیشن باکس */
+        .ticker-stage {
+            height: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticker-inner-box {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stage-fade-out {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        .stage-fade-in {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .sentiment-label-name {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .sentiment-market-value {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        /* 🎬 اسٹوڈیو اینیمیشن رولز */
+        @keyframes pulseWave {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.08); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes flashOverlay {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes fadeInSlot {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="broadcast-video-wall" id="main-studio-frame">
+        
+        <div class="studio-header">
+            <div class="live-tag">🔴 EUROPEAN DUO LIVE FEED</div>
+            <div id="studio-live-clock">00:00:00 AM</div>
+        </div>
+
+        <div class="market-identity-panel">
+            <div style="display: flex; flex-direction: column;">
+                <span class="market-title">EUROPEAN INDEX</span>
+                <span id="widget-mode-text" class="widget-mode-indicator">MODE: OPEN MARKET EXCHANGE</span>
+            </div>
+        </div>
+
+        <div class="display-deck" id="dynamic-euro-deck">
+            </div>
+
+        <div class="broadcast-advisory-center" id="live-advisory-output">
+            یورپی فاریکس ڈیٹا نیٹ ورک لنک ہو رہا ہے...
+        </div>
+
+        <div class="studio-news-ticker">
+            <div class="ticker-header">🇪🇺 LIVE EURO-CROSS MARKET SENTIMENTS</div>
+            <div class="ticker-stage">
+                <div class="ticker-inner-box" id="euro-stage-box">
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 📊 یورپی کراس مارکیٹ سینٹیمنٹس ڈیٹا بیس
+        const EuroCrossMatrix = [
+            { label: "GBP Open Spread Gap", value: "Rs 1.80 [⚖️ Normal]", color: "var(--forex-gbp)" },
+            { label: "EUR Open Spread Gap", value: "Rs 1.45 [🟢 Stable]", color: "var(--forex-eur)" },
+            { label: "GBP to EUR Cross Rate", value: "1.1650 €", color: "var(--forex-emerald)" },
+            { label: "European Central Bank Feed", value: "CONNECTED 🏦", color: "var(--forex-gbp)" }
+        ];
+
+        let currentMode = 0; // 0 = Open Market, 1 = Interbank, 2 = Cross Analytics
+        let euroPointer = 0;
+
+        // بیس پرائس ریٹ ہولڈرز فور پاؤنڈ اینڈ یورو
+        let gbpOpen = 352.40;
+        let eurOpen = 298.15;
+        let gbpInterbank = 351.10;
+        let eurInterbank = 297.20;
+
+        // ⏱️ لائیو اسٹوڈیو گھڑی
+        function startStudioClock() {
+            setInterval(() => {
+                document.getElementById("studio-live-clock").textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
+            }, 1000);
+        }
+
+        // 📡 ہائی فریکوئنسی مائیکرو فلکچویشن پائپ لائن (صرف پاؤنڈ اور یورو موضوع)
+        function runLiveEuroFluctuation() {
+            const gbpChange = (Math.random() * 0.18 - 0.08);
+            const eurChange = (Math.random() * 0.14 - 0.06);
+
+            gbpOpen = parseFloat((gbpOpen + gbpChange).toFixed(2));
+            eurOpen = parseFloat((eurOpen + eurChange).toFixed(2));
+            gbpInterbank = parseFloat((gbpInterbank + gbpChange).toFixed(2));
+            eurInterbank = parseFloat((eurInterbank + eurChange).toFixed(2));
+
+            renderActiveEuroMode();
+        }
+
+        // 🎛️ خودکار اسکرین چینجر مینیجر (خصوصیات کا آٹو روٹیشن)
+        function rotateEuroScreenMode() {
+            currentMode = (currentMode + 1) % 3;
+            const modeIndicator = document.getElementById("widget-mode-text");
+            
+            if (currentMode === 0) {
+                modeIndicator.textContent = "MODE: OPEN MARKET EXCHANGE";
+                modeIndicator.style.color = "var(--forex-gbp)";
+                modeIndicator.style.background = "rgba(0, 229, 255, 0.08)";
+            } else if (currentMode === 1) {
+                modeIndicator.textContent = "MODE: INTERBANK OFFICIAL";
+                modeIndicator.style.color = "var(--forex-eur)";
+                modeIndicator.style.background = "rgba(255, 204, 0, 0.08)";
+            } else {
+                modeIndicator.textContent = "MODE: EURO-CROSS ANALYTICS";
+                modeIndicator.style.color = "var(--forex-emerald)";
+                modeIndicator.style.background = "rgba(0, 255, 102, 0.08)";
+            }
+            runLiveEuroFluctuation();
+        }
+
+        // 🎨 ایکٹو موڈ رینڈرنگ ڈیک پلس لائیو اردو تجزیہ کمنٹری
+        function renderActiveEuroMode() {
+            const deck = document.getElementById("dynamic-euro-deck");
+            const advisory = document.getElementById("live-advisory-output");
+            const frame = document.getElementById("main-studio-frame");
+            if (!deck) return;
+
+            let htmlContent = "";
+            let adviceUrdu = "";
+
+            // موڈ ۱: اوپن مارکیٹ ریٹس
+            if (currentMode === 0) {
+                frame.style.borderLeftColor = "var(--forex-gbp)";
+                advisory.style.borderLeftColor = "var(--forex-gbp)";
+                adviceUrdu = `مقامی اوپن مارکیٹ میں برٹش پاؤنڈ اور یورو کی سپلائی بہتر ہونے کے باعث فاریکس ڈیلنگ قیمتیں مستحکم زون میں ٹریڈ ہو رہی ہیں۔ 💷`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-gbp)">
+                        <div class="rate-title-row"><span>💷 BRITISH POUND (GBP)</span><span style="color:var(--forex-gbp)">OPEN MKT</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-gbp)">Rs ${gbpOpen.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">+0.12</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-gbp)">
+                        <div class="rate-title-row"><span>💶 EURO INDEX (EUR)</span><span style="color:var(--forex-gbp)">OPEN MKT</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-gbp)">Rs ${eurOpen.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">Stable</span>
+                        </div>
+                    </div>
+                `;
+            } 
+            // موڈ ۲: آفیشل انٹر بینک کلوزنگ
+            else if (currentMode === 1) {
+                frame.style.borderLeftColor = "var(--forex-eur)";
+                advisory.style.borderLeftColor = "var(--forex-eur)";
+                adviceUrdu = `اسٹیٹ بینک آف پاکستان کے انٹر بینک ڈیٹا کے مطابق برٹش پاؤنڈ اور یورو کی آفیشل کلوزنگ پوزیشن میں روپیہ مضبوط ریکارڈ کیا گیا۔ 🏛️`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-eur)">
+                        <div class="rate-title-row"><span>💷 GBP INTERBANK</span><span style="color:var(--forex-eur)">OFFICIAL</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-eur)">Rs ${gbpInterbank.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">-0.08</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-eur)">
+                        <div class="rate-title-row"><span>💶 EUR INTERBANK</span><span style="color:var(--forex-eur)">OFFICIAL</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-eur)">Rs ${eurInterbank.toFixed(2)}</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">-0.05</span>
+                        </div>
+                    </div>
+                `;
+            } 
+            // موڈ ۳: یورو کراس اینالٹکس
+            else {
+                frame.style.borderLeftColor = "var(--forex-emerald)";
+                advisory.style.borderLeftColor = "var(--forex-emerald)";
+                adviceUrdu = `عالمی فاریکس مارکیٹ میں برٹش پاؤنڈ کی یورو کے مقابلے میں پوزیشن مضبوط ہے، جس کا اثر مقامی ایکسچینج ریٹس پر بھی دیکھا جا رہا ہے۔ 🇪🇺`;
+
+                htmlContent = `
+                    <div class="rate-box" style="border-right-color: var(--forex-emerald)">
+                        <div class="rate-title-row"><span>💷/💶 GBP TO EUR CROSS</span><span>GLOBAL METRICS</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="color: var(--forex-emerald)">1.1652 €</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">⚖️ IDEAL</span>
+                        </div>
+                    </div>
+                    <div class="rate-box" style="border-right-color: var(--forex-emerald)">
+                        <div class="rate-title-row"><span>📉 EURO ZONE STRENGTH</span><span>DATA FEED</span></div>
+                        <div class="rate-main-metrics">
+                            <span class="huge-number" style="font-size:22px; color: #fff;">Stable Momentum</span>
+                            <span class="change-text" style="color: var(--forex-emerald)">ACTIVE</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            deck.innerHTML = htmlContent;
+            advisory.textContent = adviceUrdu;
+        }
+
+        // 🔁 سلائیڈر اسٹیج روٹیشن مینیجر (لوئر تھرڈ)
+        function renderEuroStage() {
+            const stage = document.getElementById("euro-stage-box");
+            if (!stage) return;
+
+            const cur = EuroCrossMatrix[euroPointer];
+            stage.innerHTML = `
+                <div><span class="sentiment-label-name">${cur.label}</span></div>
+                <div class="sentiment-market-value" style="color: ${cur.color}">${cur.value}</div>
+            `;
+        }
+
+        // ⏱️ سلائیڈر اینیمیشن انجن
+        function rotateEuroTicker() {
+            const stage = document.getElementById("euro-stage-box");
+            if (!stage) return;
+
+            stage.classList.add("stage-fade-out");
+
+            setTimeout(() => {
+                euroPointer = (euroPointer + 1) % EuroCrossMatrix.length;
+                renderEuroStage();
+
+                stage.classList.remove("stage-fade-out");
+                stage.classList.add("stage-fade-in");
+
+                setTimeout(() => { stage.classList.remove("stage-fade-in"); }, 50);
+            }, 600);
+        }
+
+        // 🚀 ماسٹر اسٹارت اپ پروٹوکولز
+        startStudioClock();
+        runLiveEuroFluctuation();
+        renderEuroStage();
+
+        // ⏳ آٹومیٹڈ لائیو ٹائمرز
+        setInterval(runLiveEuroFluctuation, 4000);    // ہر 4 سیکنڈ بعد لائیو مائیکرو ریٹس فلکچوئیٹ ہوں گے
+        setInterval(rotateEuroScreenMode, 8000);     // ہر 8 سیکنڈ بعد پوری اسکرین کی خصوصیات اور موڈز آٹو تبدیل ہوں گے
+        setInterval(rotateEuroTicker, 5000);         // ہر 5 سیکنڈ بعد نچلا پریمیم ٹکر روٹیٹ ہوگا
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>

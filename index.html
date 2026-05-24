@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quantum Broadcast Engine: Master Controller</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================================
+           🎨 سائنسی کور ڈیزائن، ریسپانسیو گرڈ اور تھری ڈی کیمرہ ویو
+           ============================================================ */
+        :root {
+            --bg-deep: linear-gradient(135deg, rgba(5, 5, 12, 1) 0%, rgba(1, 1, 4, 1) 100%);
+            --neon-aqua: #00ffff;
+            --neon-purple: #9d00ff;
+            --main-shadow: 0 50px 100px rgba(0,0,0,0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            background: var(--bg-deep);
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 🖼️ ریسپانسیو کنٹینر، جو موبائل اسکرین کے مطابق ایڈجسٹ ہوتا ہے */
+        #master-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* 🎬 3D اینیمیشن کا کنٹینر */
+        #broadcast-stage {
+            width: 100%;
+            height: 100%;
+            perspective: 1500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        /* 📱 ریسپانسیو فریم */
+        .frame-host {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            visibility: hidden;
+            box-shadow: var(--main-shadow);
+            border-radius: 20px;
+            overflow: hidden;
+            transform: translateZ(-200px) rotateY(0deg);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            background: #000;
+            will-change: transform, opacity, visibility;
+            padding: 10px;
+        }
+
+        /* 🔄 3D روٹیشن اینیمیشنز کے لیے کلاسز */
+        .frame-host.enter-left {
+            transform: translateZ(-300px) translateX(-100%) rotateY(20deg);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .frame-host.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateZ(0) rotateY(0deg);
+            z-index: 10;
+        }
+
+        .frame-host.exit-right {
+            transform: translateZ(-300px) translateX(100%) rotateY(-20deg);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow: hidden;
+            display: block;
+        }
+
+        /* 🔔 الرٹ ٹکر */
+        #breaking-alert {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 400px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px 18px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            font-size: 14px;
+            font-weight: 800;
+            display: none;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="master-container">
+        <div id="broadcast-stage">
+            
+            <div class="frame-host" id="host-0">
+                <iframe src="1.html"></iframe>
+            </div>
+            
+            <div class="frame-host" id="host-1">
+                <iframe src="2.html"></iframe>
+            </div>
+            
+            <div class="frame-host" id="host-2">
+                <iframe src="3.html"></iframe>
+            </div>
+
+        </div>
+
+        <div id="breaking-alert">
+            <span style="color: red; margin-right: 5px;">! EMERGENCY</span>: GLOBAL ATMOSPHERIC EVENT IN PROGRESS...
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 🚀 ماسٹر براڈکاسٹ روٹیشن انجن اور اینیمیشنز
+        // ============================================================
+        const frames = [
+            document.getElementById('host-0'),
+            document.getElementById('host-1'),
+            document.getElementById('host-2')
+        ];
+        
+        let currentIndex = 0;
+        const ROTATION_TIME = 30000; // 30 سیکنڈ
+
+        // 🔄 تھری ڈی روٹیشن فنکشن
+        function rotateFrames() {
+            const currentFrame = frames[currentIndex];
+            currentIndex = (currentIndex + 1) % frames.length;
+            const nextFrame = frames[currentIndex];
+
+            currentFrame.className = 'frame-host exit-right';
+            nextFrame.className = 'frame-host active';
+            
+            setTimeout(() => {
+                currentFrame.className = 'frame-host enter-left';
+            }, 1000); // 1 سیکنڈ اینیمیشن
+        }
+
+        // 🚀 براڈکاسٹ انجن فائرنگ
+        rotateFrames();
+        setInterval(rotateFrames, ROTATION_TIME);
+    </script>
+</body>
+</html>

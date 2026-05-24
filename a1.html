@@ -1,0 +1,673 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum High-Precision Pakistan Wind Radar Broadcast Engine Ultimate</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=600;800;900&family=Poppins:wght=600;700;800;900&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 🎨 کائینیٹک کلر کوڈنگ اور پکسل پرفیکٹ نیون برائٹنس کنٹرولر */
+        :root {
+            --studio-dark-bg: linear-gradient(135deg, rgba(6, 15, 20, 0.99) 0%, rgba(1, 4, 8, 1) 100%);
+            --text-shadow-heavy: 0 2px 4px rgba(0,0,0,0.95), 0 4px 10px rgba(0,0,0,0.85);
+            
+            /* 🍃 🌬️ 🌪️ ڈائنامک ونڈ نیون کلرز */
+            --wind-breeze: #00ffcc;     /* ہلکی ہوا (Teal/Mint) */
+            --wind-gale: #ffaa00;       /* تیز ہوا (Amber/Orange) */
+            --wind-storm: #ff0055;      /* طوفانی ہوا (Neon Red) */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #010103;
+            padding: 10px;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 🌤️ مین ماسٹر کنٹینر: بالکل آپ کی دوسری فائل کے سائز اور اسٹریپ میں 100% فٹ */
+        .quantum-wind-widget {
+            width: 100%;
+            max-width: 360px; 
+            background: var(--studio-dark-bg);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 40px 90px rgba(0,0,0,1), 0 0 40px rgba(0, 255, 204, 0.05);
+            border-top: 1px solid rgba(255,255,255,0.12);
+            border-right: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--wind-breeze); 
+            transition: border-color 1s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 1s ease;
+        }
+
+        /* ⏰ پریمیم براڈکاسٹ کلاک اسٹریپ */
+        .broadcast-clock-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(5px);
+        }
+
+        .live-clock {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            color: #00ffbc;
+            text-shadow: 0 0 12px rgba(0, 255, 188, 0.5), var(--text-shadow-heavy);
+            letter-spacing: 0.5px;
+        }
+
+        .live-date {
+            font-size: 11px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: var(--text-shadow-heavy);
+            letter-spacing: 0.5px;
+        }
+
+        /* 📍 [زون 1] - مین انڈیکس ڈسپلے پینل */
+        .wind-core-panel {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+        }
+
+        .wind-tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .wind-tracker-tag {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--wind-breeze);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-shadow: var(--text-shadow-heavy);
+            transition: color 1s ease;
+        }
+
+        .radar-pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--wind-breeze);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--wind-breeze);
+            animation: radarPulse 1.2s infinite;
+            transition: background-color 1s ease, box-shadow 1s ease;
+        }
+
+        .telemetry-status {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8px;
+            font-weight: 900;
+            color: #00ffbc;
+            background: rgba(0, 255, 188, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 188, 0.2);
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .wind-data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 65px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .wind-text-package {
+            display: flex;
+            flex-direction: column;
+            max-width: 65%;
+        }
+
+        /* 🏙️ لائیو شہر (الٹرا ایچ ڈی کانٹراسٹ) */
+        .wind-micro-area {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: var(--text-shadow-heavy);
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .wind-region-sub {
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.5px;
+            margin-top: 1px;
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        /* 📊 ہوا کا موجودہ اسٹیٹس */
+        .wind-current-status {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--wind-breeze);
+            text-transform: uppercase;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+            text-shadow: var(--text-shadow-heavy);
+            transition: color 1s ease;
+        }
+
+        /* 🔢 مین لائیو ونڈ نمبر ڈسپلے */
+        .wind-number-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .wind-number-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.4), var(--text-shadow-heavy);
+            line-height: 1;
+            text-align: right;
+            transition: text-shadow 1s ease;
+        }
+
+        .wind-label-sub {
+            font-size: 9px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.6);
+            display: block;
+            text-align: right;
+            letter-spacing: 1px;
+            text-shadow: var(--text-shadow-heavy);
+            margin-top: 2px;
+        }
+
+        /* 📊 [زون 2] - لائیو ونڈ پیرامیٹرز کا بار گراف بریک ڈاؤن */
+        .pollutants-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+        }
+
+        .gas-bar-card {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(255,255,255,0.02);
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .gas-info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9.5px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.6);
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .gas-name { color: #ffffff; }
+
+        .gas-progress-track {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .gas-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--wind-breeze);
+            border-radius: 3px;
+            transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1), background 1s ease;
+            box-shadow: 0 0 6px rgba(0, 255, 204, 0.5);
+        }
+
+        /* 🧭 ڈیجیٹل کمپاس باکس */
+        .compass-container-mini {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .compass-box {
+            width: 20px;
+            height: 20px;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .compass-pointer {
+            font-size: 10px;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 😷 [زون 3] - اسمارٹ ایڈوائزری پینل (اردو لائیو ہدایات) */
+        .health-advisory-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding: 10px 12px;
+            border-left: 4px solid var(--wind-breeze);
+            font-size: 11.5px;
+            font-weight: 800;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            direction: rtl; 
+            text-shadow: var(--text-shadow-heavy);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-right: 1px solid rgba(255,255,255,0.01);
+            transition: border-color 1s ease;
+        }
+
+        /* 🕋 [زون 4] - ثانوی (Secondary) ونڈ سلائیڈر اسٹیج */
+        .global-smog-zone {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 50px; 
+            overflow: hidden; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 6px;
+        }
+
+        .smog-header-tag {
+            font-size: 8.5px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #ffcc00;
+            text-transform: uppercase;
+            text-shadow: var(--text-shadow-heavy);
+            margin-bottom: 4px;
+        }
+
+        .smog-display-stage {
+            height: 32px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 📰 [زون 5] - ٹی وی اسٹائل لائیو الرٹ نیوز ٹکر پٹی */
+        .breaking-news-ticker {
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid rgba(255, 0, 60, 0.2);
+            padding: 4px;
+            border-radius: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-label {
+            background: #ff003c;
+            color: #ffffff;
+            font-size: 8.5px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 8px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 8px rgba(255,0,60,0.4);
+            text-shadow: var(--text-shadow-heavy);
+            z-index: 100;
+        }
+
+        .ticker-text-move {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: var(--text-shadow-heavy);
+            animation: tickerMove 20s linear infinite;
+        }
+
+        /* اینیمیشن موشن کلاسز */
+        .stage-transition { opacity: 0; transform: translateY(-12px); }
+        .stage-reset { opacity: 0; transform: translateY(12px); }
+
+        .station-identity-box { display: flex; flex-direction: column; }
+        .station-city-name {
+            font-size: 14px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .station-status {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: var(--text-shadow-heavy);
+        }
+
+        .station-aqi-value { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; text-shadow: var(--text-shadow-heavy); }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes radarPulse {
+            0% { opacity: 0.4; transform: scale(0.85); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.4; transform: scale(0.85); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quantum-wind-widget" id="master-wind-shell">
+        
+        <div class="broadcast-clock-panel">
+            <div id="digital-clock" class="live-clock">00:00:00 AM</div>
+            <div id="digital-date" class="live-date">-- --- ----</div>
+        </div>
+
+        <div class="wind-core-panel">
+            <div class="wind-tracker-header">
+                <div class="wind-tracker-tag" id="wind-tag-banner">
+                    <div class="radar-pulse-dot" id="wind-radar-dot"></div>
+                    <span id="wind-radar-title">PAKISTAN METEO WIND RADAR</span>
+                </div>
+                <div class="telemetry-status">LIVE OK</div>
+            </div>
+            <div class="wind-data-row" id="national-wind-stage">
+                </div>
+        </div>
+
+        <div class="pollutants-grid">
+            <div class="gas-bar-card">
+                <div class="gas-info-row">
+                    <span class="gas-name">ہوا کی رفتار (Speed)</span>
+                    <span id="val-speed">-- km/h</span>
+                </div>
+                <div class="gas-progress-track"><div id="bar-speed" class="gas-progress-fill"></div></div>
+            </div>
+            <div class="gas-bar-card">
+                <div class="gas-info-row">
+                    <span class="gas-name">تیز جھٹکے (Gusts)</span>
+                    <span id="val-gusts">-- km/h</span>
+                </div>
+                <div class="gas-progress-track"><div id="bar-gusts" class="gas-progress-fill"></div></div>
+            </div>
+            <div class="gas-bar-card">
+                <div class="gas-info-row">
+                    <span class="gas-name">درجہ حرارت (Temp)</span>
+                    <span id="val-temp">-- °C</span>
+                </div>
+                <div class="gas-progress-track"><div id="bar-temp" class="gas-progress-fill"></div></div>
+            </div>
+            <div class="gas-bar-card">
+                <div class="compass-container-mini">
+                    <span class="gas-name" id="val-bearing-text">ہوا کی سمت: 0° N</span>
+                    <div class="compass-box">
+                        <div id="compass-needle" class="compass-pointer" style="color: var(--wind-breeze)">⬆️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="health-advisory-box" id="wind-health-advisory">
+            قومی نیٹ ورک سے کنکشن قائم کیا جا رہا ہے...
+        </div>
+
+        <div class="global-smog-zone">
+            <div class="smog-header-tag">🌐 REGIONAL METRIC LOOPS NETWORK</div>
+            <div class="smog-display-stage" id="smog-stage-box">
+                </div>
+        </div>
+
+        <div class="breaking-news-ticker">
+            <span class="ticker-label">LIVE ALERT</span>
+            <span id="ticker-alert-text" class="ticker-text-move">INITIALIZING REAL-TIME HYBRID WIND SPEED BROADCAST ENGINE...</span>
+        </div>
+
+    </div>
+
+    <script>
+        // 🏙️ پاکستان کے تمام صوبوں اور اہم ترین شہروں کا ہائبرڈ نیٹ ورک ڈیٹا بیس (14 بڑے شہر)
+        const CombinedNetworkMatrix = [
+            { city: "KARACHI 🌊", region: "SINDH, COASTAL", lat: 24.8607, lon: 67.0011, speed: 15, gusts: 20, temp: 32, direction: 240 },
+            { city: "LAHORE 🏯", region: "PUNJAB, CENTRAL", lat: 31.5204, lon: 74.3587, speed: 8, gusts: 12, temp: 35, direction: 110 },
+            { city: "ISLAMABAD 🏔️", region: "CAPITAL TERRITORY", lat: 33.6844, lon: 73.0479, speed: 10, gusts: 14, temp: 30, direction: 45 },
+            { city: "PESHAWAR ⛰️", region: "KPK, FRONTIER", lat: 34.0151, lon: 71.5249, speed: 12, gusts: 18, temp: 33, direction: 90 },
+            { city: "QUETTA 🏜️", region: "BALOCHISTAN, VALLEY", lat: 30.1798, lon: 66.9750, speed: 18, gusts: 25, temp: 24, direction: 320 },
+            { city: "GWADAR ⚓", region: "BALOCHISTAN, PORT", lat: 25.1216, lon: 62.3254, speed: 22, gusts: 30, temp: 29, direction: 260 },
+            { city: "MULTAN 🕌", region: "PUNJAB, SOUTH", lat: 30.1575, lon: 71.5249, speed: 9, gusts: 13, temp: 38, direction: 140 },
+            { city: "FAISALABAD 🏭", region: "PUNJAB, INDUSTRIAL", lat: 31.4187, lon: 73.0791, speed: 7, gusts: 10, temp: 36, direction: 120 },
+            { city: "SIALKOT ⚽", region: "PUNJAB, BORDER", lat: 32.4945, lon: 74.5229, speed: 11, gusts: 15, temp: 32, direction: 80 },
+            { city: "HYDERABAD 🏺", region: "SINDH, INTERNAL", lat: 25.3960, lon: 68.3578, speed: 16, gusts: 22, temp: 34, direction: 230 },
+            { city: "SUKKUR Bridge 🌉", region: "SINDH, UPPER", lat: 27.7244, lon: 68.8475, speed: 13, gusts: 17, temp: 37, direction: 210 },
+            { city: "MURREE Hills 🌲", region: "PUNJAB, RESORT", lat: 33.9042, lon: 73.3903, speed: 14, gusts: 22, temp: 18, direction: 60 },
+            { city: "GILGIT 🏔️", region: "GILGIT BALTISTAN", lat: 35.9208, lon: 74.3144, speed: 6, gusts: 9, temp: 22, direction: 10 },
+            { city: "MUZAFFARABAD 🏔️", region: "AZAD KASHMIR", lat: 34.3700, lon: 73.4708, speed: 9, gusts: 14, temp: 26, direction: 30 }
+        ];
+
+        let primaryPointer = 0;
+        let secondaryPointer = 3; // دونوں پینلز میں الگ شہر دکھانے کے لیے ڈفرنس سیٹ کیا ہے
+
+        // ⏰ ڈیجیٹل براڈکاسٹ گھڑی انجن
+        function runBroadcastClock() {
+            const now = new Date();
+            let hours = now.getHours(), minutes = now.getMinutes(), seconds = now.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            
+            document.getElementById("digital-clock").textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+            document.getElementById("digital-date").textContent = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // 🛰️ اوپن میٹیو سرور سے لائیو ڈیٹا فیچنگ انجن
+        async function updateWindEngine() {
+            for (let station of CombinedNetworkMatrix) {
+                try {
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${station.lat}&longitude=${station.lon}&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    
+                    if (data && data.current) {
+                        const cur = data.current;
+                        station.speed = Math.round(cur.wind_speed_10m || station.speed);
+                        station.gusts = Math.round(cur.wind_gusts_10m || station.gusts);
+                        station.temp = Math.round(cur.temperature_2m || station.temp);
+                        station.direction = Math.round(cur.wind_direction_10m || station.direction);
+                    }
+                } catch (e) { console.log("Feed delay for station matrix item"); }
+            }
+            renderPrimaryStage();
+            renderSecondaryStage();
+        }
+
+        // 🏙️ پرائمری رینڈرر (مرکزی پینل کنٹرولر)
+        function renderPrimaryStage() {
+            const box = document.getElementById("national-wind-stage");
+            if (!box) return;
+            const current = CombinedNetworkMatrix[primaryPointer];
+
+            box.innerHTML = `
+                <div class="wind-text-package">
+                    <span class="wind-micro-area">${current.city}</span>
+                    <span class="wind-region-sub">${current.region}</span>
+                    <span id="wind-current-status" class="wind-current-status">--</span>
+                </div>
+                <div class="wind-number-container">
+                    <div id="wind-main-number" class="wind-number-display">${current.speed}</div>
+                    <span class="wind-label-sub">KM/H SPEED</span>
+                </div>
+            `;
+
+            // پروگریس بارز کی زیادہ سے زیادہ حد (Limits) کے مطابق فیصد سیٹ کرنا
+            updateMetricComponent("speed", current.speed, 50, "km/h");
+            updateMetricComponent("gusts", current.gusts, 70, "km/h");
+            updateMetricComponent("temp", current.temp, 50, "°C");
+
+            // کمپاس روٹیشن اور ڈگری ٹیکسٹ اپڈیٹ کریں
+            const bearingText = getWindBearingText(current.direction);
+            document.getElementById("val-bearing-text").textContent = `ہوا کی سمت: ${current.direction}° ${bearingText}`;
+            document.getElementById("compass-needle").style.transform = `rotate(${current.direction}deg)`;
+
+            applyDynamicWindDesign(current.speed, current.city, current);
+        }
+
+        function updateMetricComponent(id, value, maxLimit, unit) {
+            const label = document.getElementById(`val-${id}`);
+            const bar = document.getElementById(`bar-${id}`);
+            if(label) label.textContent = `${value} ${unit}`;
+            
+            let pct = (value / maxLimit) * 100;
+            if(pct > 100) pct = 100;
+            if(pct < 0) pct = 0; // اگر درجہ حرارت مائنس میں ہو تو بار غائب نہ ہو
+            if(bar) bar.style.width = `${pct}%`;
+        }
+
+        // 🧭 ڈگری ٹو بیرنگ ٹیکسٹ کیلکولیٹر
+        function getWindBearingText(deg) {
+            const sectors = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
+            return sectors[Math.round(deg / 45) % 8];
+        }
+
+        // 🎨 متحرک تھیم، الرٹ ٹکر اور اردو لائیو ایڈوائزری ہینڈلر
+        function applyDynamicWindDesign(speed, cityName, dataObj) {
+            const shell = document.getElementById("master-wind-shell");
+            const banner = document.getElementById("wind-tag-banner");
+            const dot = document.getElementById("wind-radar-dot");
+            const statusText = document.getElementById("wind-current-status");
+            const numberText = document.getElementById("wind-main-number");
+            const advisory = document.getElementById("wind-health-advisory");
+            const tickerText = document.getElementById("ticker-alert-text");
+            
+            let color = "var(--wind-breeze)";
+            let status = "ہلکی ہوا (GENTLE BREEZE)";
+            let msg = `اس وقت ${cityName} میں ہوا کی رفتار نارمل اور خوشگوار ہے۔ ڈسپلے براڈکاسٹ پرسکون ہے۔ 🍃`;
+
+            if (speed > 19 && speed <= 35) {
+                color = "var(--wind-gale)";
+                status = "تیز ہوا (FRESH GALE)";
+                msg = `الرٹ! ${cityName} میں ہوائیں کافی تیز ہیں۔ آؤٹ ڈور سیٹ اپ یا ہلکی اشیاء کا خاص خیال رکھیں! 🌬️`;
+            } else if (speed > 35) {
+                color = "var(--wind-storm)";
+                status = "طوفانی ہوا (HIGH STORM)";
+                msg = `شدید طوفانی ہوا کا انتباہ! بلا ضرورت سفر سے پرہیز کریں اور عارضی املاک سے دور رہیں! 🌪️`;
+            }
+
+            shell.style.borderLeftColor = color;
+            shell.style.boxShadow = `0 40px 90px rgba(0,0,0,1), 0 0 40px ${color}1A`;
+            banner.style.color = color;
+            dot.style.backgroundColor = color;
+            dot.style.boxShadow = `0 0 12px ${color}`;
+            if(statusText) statusText.style.color = color;
+            if(statusText) statusText.textContent = status;
+            if(numberText) numberText.style.textShadow = `0 0 20px ${color}, var(--text-shadow-heavy)`;
+            advisory.style.borderLeftColor = color;
+            advisory.textContent = msg;
+
+            if(tickerText) {
+                tickerText.textContent = `ALERT FOCUS: ${cityName} • WIND SPEED: ${speed} KM/H (${status}) • GUSTS: ${dataObj.gusts} km/h • TEMP: ${dataObj.temp}°C • LIVE METEO FEED CHANNELS ONLINE...`;
+            }
+
+            document.querySelectorAll(".gas-progress-fill").forEach(bar => {
+                bar.style.background = color;
+                bar.style.boxShadow = `0 0 6px ${color}`;
+            });
+            document.getElementById("compass-needle").style.color = color;
+        }
+
+        // 🕋 سیکنڈری رینڈرر (نچلا برانچ سلائیڈر پینل)
+        function renderSecondaryStage() {
+            const stage = document.getElementById("smog-stage-box");
+            if (!stage) return;
+            const cur = CombinedNetworkMatrix[secondaryPointer];
+            
+            let sColor = "var(--wind-breeze)", sStatus = "BREEZE";
+            if(cur.speed > 19 && cur.speed <= 35) { sStatus = "STRONG GALE"; sColor = "var(--wind-gale)"; }
+            else if(cur.speed > 35) { sStatus = "STORM WARNING"; sColor = "var(--wind-storm)"; }
+
+            stage.innerHTML = `
+                <div class="station-identity-box">
+                    <span class="station-city-name">${cur.city}</span>
+                    <span class="station-status" style="color: ${sColor}">${sStatus}</span>
+                </div>
+                <div class="station-aqi-value" style="color: ${sColor}">${cur.speed} <span style="font-size:10px;">KM/H</span></div>
+            `;
+        }
+
+        // 🔄 کائینیٹک اسموتھ موشن روٹیشن انجن (پرائمری لوپ - ہر 8 سیکنڈ بعد)
+        function rotatePrimaryStations() {
+            const box = document.getElementById("national-wind-stage");
+            if (!box) return;
+            box.classList.add("stage-transition");
+            setTimeout(() => {
+                primaryPointer = (primaryPointer + 1) % CombinedNetworkMatrix.length;
+                renderPrimaryStage();
+                box.className = "wind-data-row stage-reset";
+                setTimeout(() => { box.className = "wind-data-row"; }, 50);
+            }, 500);
+        }
+
+        // 🔄 کائینیٹک اسموتھ موشن روٹیشن انجن (سیکنڈری لوپ - ہر 6 سیکنڈ بعد)
+        function rotateSecondaryStations() {
+            const stage = document.getElementById("smog-stage-box");
+            if (!stage) return;
+            stage.classList.add("stage-transition");
+            setTimeout(() => {
+                secondaryPointer = (secondaryPointer + 1) % CombinedNetworkMatrix.length;
+                // یہ یقینی بنانے کے لیے کہ دونوں لوپس پر ایک ہی وقت ایک ہی شہر ظاہر نہ ہو
+                if(secondaryPointer === primaryPointer) {
+                    secondaryPointer = (secondaryPointer + 1) % CombinedNetworkMatrix.length;
+                }
+                renderSecondaryStage();
+                stage.className = "smog-display-stage stage-reset";
+                setTimeout(() => { stage.className = "smog-display-stage"; }, 50);
+            }, 500);
+        }
+
+        // 🚀 ماسٹر براڈکاسٹ انجن فائرنگ
+        runBroadcastClock();
+        updateWindEngine();
+
+        // ⏳ آٹومیٹڈ انٹیلیجنٹ اسٹوڈیو ٹائمرز
+        setInterval(runBroadcastClock, 1000);
+        setInterval(rotateSecondaryStations, 6000);       // ہر 6 سیکنڈ بعد نچلا پینل بدلے گا
+        setInterval(rotatePrimaryStations, 8000);         // ہر 8 سیکنڈ بعد مرکزی ہائبرڈ فلو تبدیل ہوگا
+        setInterval(updateWindEngine, 900000);             // ہر 15 منٹ بعد سیٹلائٹ کلاؤڈ ڈیٹا ریفریش ہوگا
+    </script>
+</body>
+</html><script></script><script type="module"></script></body></html>
