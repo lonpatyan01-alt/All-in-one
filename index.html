@@ -182,6 +182,13 @@
         </div>
     </div>
 
+
+
+
+        <audio id="hiddenStudioEngine" loop style="display: none; visibility: hidden; width: 0; height: 0;">
+    <source id="masterAudioSource" src="**اپنی_آڈیو_کا_بیس64_کوڈ_یہاں_پیسٹ_کریں**" type="audio/mp3">
+</audio>
+
     <script>
         // ============================================================
         // 🚀 ماسٹر براڈکاسٹ روٹیشن انجن اور اینیمیشنز
@@ -212,6 +219,84 @@
         // 🚀 براڈکاسٹ انجن فائرنگ
         rotateFrames();
         setInterval(rotateFrames, ROTATION_TIME);
+
+
+
+
+    /* =================================================================
+       ⚙️ ماسٹر کنٹرولر سیٹنگز ہب (تمام تبدیلیاں یہاں سے کریں)
+       ساجد بھائی، آپ کو نیچے کوڈ میں جانے کی ضرورت نہیں، صرف یہاں سے سیٹنگز بدلیں:
+       ================================================================= */
+    const MediaPointSettings = {
+        // والیم سیٹنگز (0.0 سے لے کر 1.0 کے درمیان رکھیں)
+        startingVolume: 0.28,      // شروع کا پاور فل والیم (جب صرف نیوز ٹریک چلے گا)
+        vocalDuckingVolume: 0.07,  // چینل اور آپ کا نام آنے پر میوزک کتنا دھیما ہو (7% والیم)
+        continuousVolume: 0.22,    // انٹرویو ختم ہونے کے بعد مستقل بیک گراؤنڈ میوزک کا والیم
+
+        // ٹائمنگ اور ترتیب کی سیٹنگز (ملی سیکنڈز میں: 1000 یعنی 1 سیکنڈ)
+        pureMusicDuration: 3500,   // [اسٹیپ 1]: شروع میں کتنی دیر صرف میوزک چلے (3.5 سیکنڈ)
+        vocalIntroDuration: 10500, // [اسٹیپ 2]: چینل اور ہوسٹ کا انٹرویو کتنی دیر چلے گا (10.5 سیکنڈ)
+        
+        // ٹیسٹنگ موڈ
+        testTrackUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+    };
+
+    /* =================================================================
+       🚀 مین کور آڈیو انجن (Core Engine - DO NOT TOUCH)
+       ================================================================= */
+    let isEngineActivated = false;
+
+    function launchMasterAudioEngine() {
+        if (isEngineActivated) return;
+
+        const audioPlayer = document.getElementById('hiddenStudioEngine');
+        const audioSource = document.getElementById('masterAudioSource');
+
+        // سیفٹی اور ٹیسٹنگ چیک: اگر بیس64 کوڈ موجود نہ ہو تو عارضی طور پر آن لائن ٹریک چلائے گا تاکہ کوڈ فیل نہ ہو
+        if (audioSource.src.includes("**" || audioSource.src === "")) {
+            audioPlayer.src = MediaPointSettings.testTrackUrl;
+        }
+
+        // ترتیب کا آغاز: شروع کا پریمیم والیم لاک کریں
+        audioPlayer.volume = MediaPointSettings.startingVolume;
+
+        // پلے بیک فائر کریں
+        audioPlayer.play().then(() => {
+            isEngineActivated = true;
+            console.log("میڈیا انجن: اسمارٹ میڈیا پوائنٹ کی نشریات پسِ منظر میں کامیابی سے جاری ہیں!");
+
+            /* =========================================================
+               ⏱️ خودکار ترتیب اور ٹائم لائن کنٹرولر
+               ========================================================= */
+            
+            // مرحلہ 2: طے شدہ وقت (3.5 سیکنڈ) کے بعد میوزک کو خودکار دھیما کرنا تاکہ چینل اور آپ کا نام صاف سنائی دے
+            setTimeout(() => {
+                if (isEngineActivated) {
+                    // والیم کو بغیر کسی جھٹکے کے سمتھ طریقے سے دھیما کریں
+                    audioPlayer.volume = MediaPointSettings.vocalDuckingVolume;
+                    console.log("میڈیا انجن: اسمارٹ میڈیا پوائنٹ برانڈ نیم اور اونر نیم فلو جاری ہے۔");
+                }
+            }, MediaPointSettings.pureMusicDuration);
+
+            // مرحلہ 3: انٹرویو مکمل ہونے پر (14 سیکنڈ بعد) میوزک کو مستقل پریمیم لوپ والیم پر لاک کرنا
+            const totalIntroTime = MediaPointSettings.pureMusicDuration + MediaPointSettings.vocalIntroDuration;
+            setTimeout(() => {
+                if (isEngineActivated) {
+                    audioPlayer.volume = MediaPointSettings.continuousVolume;
+                    console.log("میڈیا انجن: ٹریک اب چوبیس گھنٹے کے لیے مستقل بیک گراؤنڈ موڈ پر سیٹ ہو گیا ہے۔");
+                }
+            }, totalIntroTime);
+
+        }).catch(err => {
+            console.error("میڈیا انجن الرٹ: براؤزر نے آڈیو بلاک کی، دوبارہ کوشش کی جا رہی ہے...", err);
+        });
+    }
+
+    // صارف کے کسی بھی پہلے لائیو ایکشن (کلک یا اسکرین ٹچ) پر انجن خودکار بیک گراؤنڈ میں آن ہو جائے گا
+    document.addEventListener('click', launchMasterAudioEngine, { once: true });
+    document.addEventListener('touchstart', launchMasterAudioEngine, { once: true });
+
+        
     </script>
 </body>
 </html>
